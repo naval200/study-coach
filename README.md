@@ -1,12 +1,14 @@
 # study-coach
 
-A Claude Code skill that coaches you through a self-directed curriculum. Give it any study plan; it builds a plain-markdown workspace, tells you what to do today, tracks whether you're ahead or behind, and quizzes you until you actually know the material.
+A Claude Code skill that coaches you through a self-directed curriculum. Give it any study plan; it builds a plain-markdown workspace, tells you what to do today, tracks whether you're ahead or behind, quizzes you until you actually know the material, lets the plan change without falling apart, and turns your progress into posts.
 
 ```
 /study-coach                  what do I do today?
 /study-coach status           how am I progressing?
 /study-coach log              tick off what I did, write the day's log
-/study-coach check <concept>  quiz me to the depth I need (aware → explain → apply → teach)
+/study-coach check <concept>  quiz me to the depth I need (aware → explain → apply → teach), schedule reviews
+/study-coach adapt <change>   "I found this paper/job post" — triage it, swap it in, or re-plan, with a changelog
+/study-coach share            turn today's work into a blog + LinkedIn / X / Instagram carousel / YouTube text
 /study-coach capture idea|article|book …
 /study-coach review           weekly scorecard
 /study-coach init plan.md     turn a curriculum into a workspace
@@ -23,7 +25,7 @@ A Claude Code skill that coaches you through a self-directed curriculum. Give it
 
 **As a plain skill:** copy or symlink `skills/study-coach/` into `~/.claude/skills/` (all projects) or `<project>/.claude/skills/` (one project).
 
-Requires Node.js 18+ for the dashboard script (no npm dependencies).
+Requires Node.js 18+ for the scripts (no npm dependencies). The plugin install also adds a SessionStart hook that prints a one-line summary inside study workspaces (silent elsewhere).
 
 ## The workspace
 
@@ -45,9 +47,27 @@ Try it on the sample:
 node skills/study-coach/scripts/dashboard.mjs examples/sample-workspace --today 2026-01-06 --no-write
 ```
 
+## How it works
+
+- **Pace:** items owed from past days vs items done ahead; a missed-run alert triggers your plan's scope-cut rule.
+- **Checks:** answers are graded by correctness × confidence — *solid*, *fragile*, *misconception* (confident and wrong, fixed first) or *gap*. Depth only rises on independent evidence.
+- **Spaced review:** `scripts/concept.mjs` schedules each concept on a 1 / 3 / 7 / 16 / 35-day ladder; due reviews become a warm-up in the `today` view.
+- **Plan changes:** cheap to propose, applied on a schedule (tweaks any day, swaps weekly, re-plans and goal changes at checkpoints). Every addition names what comes out; every change is logged.
+- **Sharing:** write once from your real logs and numbers, then adapt the post for each platform. No video required.
+
 ## Roadmap
 
 See [ROADMAP.md](ROADMAP.md). Issues and PRs welcome.
+
+## Credits
+
+Several mechanisms were adapted from other MIT-licensed learning skills — thank you:
+[supertutor](https://github.com/sayeemabdullah/supertutor) (confidence × correctness grading, review ladder, re-plan triggers),
+[learn-skill](https://github.com/derwells/learn-skill) (evidence-backed levels, fresh angles),
+[claude-learning-coach](https://github.com/coffeerunhobby/claude-learning-coach) (miss log and watchlist),
+[tutor-skills](https://github.com/bevibing/tutor-skills) (zero-hint quiz rules),
+[claude-tutor](https://github.com/kirilxd/claude-tutor) (SessionStart summary),
+[agent-tutor-skill](https://github.com/bhala-srinivash/agent-tutor-skill) (review-first warm-ups).
 
 ## License
 

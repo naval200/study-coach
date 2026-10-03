@@ -1,0 +1,16 @@
+{
+  "description": "Print a one-glance study summary (day, pace, reviews due) when a session starts in a study workspace. Silent elsewhere.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/skills/study-coach/scripts/dashboard.mjs\" \"${CLAUDE_PROJECT_DIR:-.}\" --brief",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

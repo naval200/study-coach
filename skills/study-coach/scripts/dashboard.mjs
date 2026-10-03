@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Regenerates DASHBOARD.md for a study workspace and prints it.
-// Usage: node dashboard.mjs [workspaceDir] [--today YYYY-MM-DD] [--no-write]
+// Usage: node dashboard.mjs [workspaceDir] [--today YYYY-MM-DD] [--no-write] [--brief]
+//   --brief: print a 1–4 line summary and don't write; exits silently if no workspace (for hooks).
 // No dependencies: frontmatter and checkboxes are parsed by hand.
 
 import fs from "node:fs";
@@ -12,9 +13,11 @@ const args = process.argv.slice(2);
 let dirArg = ".";
 let todayArg;
 let write = true;
+let brief = false;
 for (let i = 0; i < args.length; i++) {
   if (args[i] === "--today") todayArg = args[++i];
   else if (args[i] === "--no-write") write = false;
+  else if (args[i] === "--brief") { brief = true; write = false; }
   else dirArg = args[i];
 }
 
@@ -31,6 +34,7 @@ function findRoot(start) {
 
 const root = findRoot(dirArg);
 if (!root) {
+  if (brief) process.exit(0);
   console.error(`No STUDY.md found in ${path.resolve(dirArg)} (or ./study, or any parent).`);
   process.exit(1);
 }
@@ -156,10 +160,35 @@ const tracks = [...mdFiles("courses"), ...mdFiles("books")].map((f) => ({ rel: p
 
 const LEVELS = { aware: 1, explain: 2, apply: 3, teach: 4 };
 const lvl = (v) => (typeof v === "number" ? v : LEVELS[String(v).toLowerCase()] || 0);
-const concepts = mdFiles("concepts").map((f) => {
+const concepts = mdFiles("concepts").filter((f) => !path.basename(f).startsWith("_")).map((f) => {
   const { data } = parseFrontmatter(read(f));
-  return { title: data.title || path.basename(f, ".md"), level: lvl(data.level), target: lvl(data.target || cfg.default_depth || "explain"), checked: data.last_checked || "" };
+  return {
+    title: data.title || path.basename(f, ".md"),
+    level: lvl(data.level),
+    target: lvl(data.target || cfg.default_depth || "explain"),
+    checked: data.last_checked || "",
+    outcome: data.last_check || "",
+    next: String(data.next_review || ""),
+  };
 });
+const due = concepts.filter((c) => /^\d{4}-\d{2}-\d{2}$/.test(c.next) && c.next <= today).sort((a, b) => a.next.localeCompare(b.next));
+const misconceptions = concepts.filter((c) => c.outcome === "misconception");
+
+// Markdown table → array of row objects keyed by lower-cased header.
+function readTable(rel) {
+  const f = path.join(root, rel);
+  if (!fs.existsSync(f)) return [];
+  const rows = read(f).split("\n").filter((l) => /^\|/.test(l.trim()));
+  if (rows.length < 2) return [];
+  const cells = (l) => l.trim().replace(/^\||\|$/g, "").split("|").map((c) => c.trim());
+  const head = cells(rows[0]).map((h) => h.toLowerCase());
+  return rows.slice(2).map(cells).filter((r) => r.some(Boolean)).map((r) => Object.fromEntries(head.map((h, i) => [h, r[i] || ""])));
+}
+const misses = readTable("concepts/_misses.md");
+const watchlist = misses.filter((m) => Number(m.count) >= 2);
+const changes = readTable("curriculum/changes.md");
+const proposals = readTable("curriculum/proposals.md").filter((p) => !/applied|rejected|parked/i.test(p.status || ""));
+const published = readTable("posts/published.md");
 
 let exit = null;
 if (cfg.exit_test && fs.existsSync(path.join(root, cfg.exit_test))) {
@@ -214,6 +243,15 @@ if (missedRun >= scopeCutAfter) out.push(`- ⚠️ **${missedRun} days missed in
 if (exit) out.push(`- **Exit test:** ${exit.done}/${exit.total} (pass ≥ ${exit.pass})`);
 out.push("");
 
+// Reviews due
+if (due.length || watchlist.length || misconceptions.length) {
+  out.push("## Reviews due", "");
+  for (const c of misconceptions) out.push(`- ❗ **${c.title}** — confident but wrong last time; fix first`);
+  for (const c of due.filter((c) => c.outcome !== "misconception")) out.push(`- 🔁 ${c.title} — due ${c.next}${c.outcome ? ` (last: ${c.outcome})` : ""}`);
+  for (const m of watchlist) out.push(`- 👀 Repeat miss: ${m.concept || m.id} — ${m.note || m.type} (×${m.count})`);
+  out.push("");
+}
+
 // Today
 const focus = todayDay || (start && today < start ? days.find((d) => d.date <= start && d.status !== "done" && d.day === 0) : null);
 const lastLogged = [...past].reverse().find((d) => d.log.next);
@@ -239,7 +277,7 @@ if (owed.length) {
 const weeks = [...new Set(days.map((d) => d.week))].filter((w) => w !== "" && w !== 0);
 if (weeks.length) {
   out.push("## Weekly scorecard", "");
-  out.push(`| Week | Days done | Logged | Items | Hours (target ${cfg.hours_target_per_week || "–"}) | Reels | Commits |`);
+  out.push(`| Week | Days done | Logged | Items | Hours (target ${cfg.hours_target_per_week || "–"}) | Posts | Commits |`);
   out.push("|---|---|---|---|---|---|---|");
   for (const w of weeks) {
     const wd = days.filter((d) => d.week === w);
@@ -272,8 +310,8 @@ if (tracks.length) {
 if (concepts.length) {
   const names = ["–", "aware", "explain", "apply", "teach"];
   out.push("## Concept mastery", "");
-  out.push("| Concept | Level | Target | Last checked |", "|---|---|---|---|");
-  for (const c of concepts) out.push(`| ${c.title} | ${names[c.level] || "–"}${c.level < c.target ? " ⚠️" : " ✅"} | ${names[c.target]} | ${c.checked} |`);
+  out.push("| Concept | Level | Target | Last checked | Next review |", "|---|---|---|---|---|");
+  for (const c of concepts) out.push(`| ${c.title} | ${names[c.level] || "–"}${c.level < c.target ? " ⚠️" : " ✅"} | ${names[c.target]} | ${c.checked}${c.outcome ? ` (${c.outcome})` : ""} | ${c.next} |`);
   out.push("");
 }
 
@@ -287,9 +325,38 @@ if (recent.length) {
   out.push("");
 }
 
+// Sharing
+if (published.length) {
+  const byPlatform = {};
+  for (const p of published) byPlatform[p.platform || "other"] = (byPlatform[p.platform || "other"] || 0) + 1;
+  out.push("## Shared", "");
+  out.push(`- ${published.length} post(s) published · ` + Object.entries(byPlatform).map(([k, v]) => `${k} ${v}`).join(" · "));
+  const last = published.at(-1);
+  out.push(`- Last: ${last.date || ""} ${last.title || ""}`.trimEnd());
+  out.push("");
+}
+
+// Plan changes
+if (changes.length || proposals.length) {
+  const goalChanges = changes.filter((c) => /goal/i.test(c.kind || ""));
+  out.push("## Plan changes", "");
+  if (changes.length) out.push(`- ${changes.length} change(s) logged${goalChanges.length ? ` · ${goalChanges.length} goal change(s)` : ""} · last: ${changes.at(-1).date} — ${changes.at(-1).change}`);
+  if (proposals.length) out.push(`- ${proposals.length} proposal(s) waiting for the next review`);
+  out.push("");
+}
+
 out.push("## Collected", "");
-out.push(`- Ideas in inbox: ${inboxCount} · Parking lot: ${parkingCount} · Articles/papers noted: ${articleCount} · Concepts checked: ${concepts.length}`);
+out.push(`- Ideas in inbox: ${inboxCount} · Parking lot: ${parkingCount} · Articles/papers noted: ${articleCount} · Concepts checked: ${concepts.length} · Misses logged: ${misses.length}`);
 out.push("");
+
+if (brief) {
+  const lines = [`study-coach: ${dayNum && dayNum >= 1 && dayNum <= totalDays ? `Day ${dayNum}/${totalDays}${todayDay ? ` — ${todayDay.title}` : ""}` : start && today < start ? `Day 1 starts ${start}` : "plan finished"} · ${pace.replace(/\*\*/g, "")}`];
+  if (due.length || misconceptions.length) lines.push(`study-coach: ${due.length} concept review(s) due${misconceptions.length ? `, ${misconceptions.length} misconception(s) to fix` : ""}`);
+  if (lastLogged && todayDay) lines.push(`study-coach: start with — ${lastLogged.log.next}`);
+  lines.push("study-coach: run /study-coach for today's plan");
+  process.stdout.write(lines.join("\n") + "\n");
+  process.exit(0);
+}
 
 const md = out.join("\n");
 if (write) fs.writeFileSync(path.join(root, "DASHBOARD.md"), md);

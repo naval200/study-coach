@@ -1,16 +1,18 @@
 # study-coach roadmap
 
-v0.1 (now): workspace convention, dashboard script, modes today / log / status / check / capture / review / init.
+## Done
+- v0.1: workspace convention, dashboard, modes today / log / status / check / capture / review / init.
+- v0.2: confidence × correctness grading, zero-hint checks, evidence-backed depth, spaced review ladder (`concept.mjs`), miss log + watchlist, `adapt` (intake, cadence, cost, changelog), `share` (blog → LinkedIn / X / carousel / YouTube), SessionStart hook.
 
 ## Next
-- [ ] **Goal-based plans** — start from a goal ("get hired as an LLM engineer", "pass exam X") and back-plan milestones; each day item links to the goal it serves, and status reports goal progress, not just task progress.
-- [ ] **Depth negotiation at init** — ask per topic how deep the learner needs it; store `target` on concepts ahead of time so `check` knows the bar.
-- [ ] **Spaced repetition** — re-check concepts at 1/3/7/21 days; surface "due for review" in `today`.
-- [ ] **Concept auto-extraction** — pull concepts from each day's "Done when" and pre-create concept files.
-- [ ] **Smarter pace** — weight items by estimated hours; forecast finish date at current velocity; trend over the last 7 days.
-- [ ] **Encouragement engine** — streak milestones, "best week so far", specific wins pulled from logs.
-- [ ] **Falling-behind playbook** — propose a concrete re-plan (which items to drop/merge) when owed work exceeds a threshold, then apply it with confirmation.
-- [ ] **Checkpoint expansion** — at roadmap checkpoints (e.g. Day 30/60/90), expand the next block into day files.
-- [ ] **Evidence links** — tie Build items to commits/PRs/URLs so "done" is verifiable.
-- [ ] **Hooks** — SessionStart hook that prints the `today` view; reminder if no log by evening.
-- [ ] **HTML dashboard** — optional rendered view with charts.
+- [ ] **Goal tree:** goal → milestones → weeks. Each day item links to the milestone it serves, and status reports goal progress, not just task progress.
+- [ ] **Calibration:** the learner predicts a score before a check; the dashboard shows predicted vs actual bias after 5 or more checks and adjusts readiness verdicts.
+- [ ] **FSRS upgrade:** replace the fixed ladder with stability/difficulty scheduling, ordering due reviews by retrievability.
+- [ ] **Concept auto-extraction:** pre-create concept files (with targets) from each day's "Done when".
+- [ ] **Coverage vs plan:** each track's share of effort vs its planned share; flag gaps of 5 or more points.
+- [ ] **Freshness:** flag fast-moving AI topics whose notes are more than 6 weeks old for a quick refresh sweep.
+- [ ] **Rolling memory:** fold old logs into a standing summary in the weekly review; keep the last 7 days in detail.
+- [ ] **Smarter pace:** weight items by estimated hours; forecast the finish date from the last 7 days' velocity.
+- [ ] **Carousel renderer:** turn `variants.md` slides into PNGs (HTML → image) so no design tool is needed.
+- [ ] **Evidence links:** tie Build items to commits, PRs or URLs.
+- [ ] **Evals:** `claude plugin eval` cases for today / status / check / adapt behaviours.

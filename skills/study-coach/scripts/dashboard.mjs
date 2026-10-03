@@ -86,6 +86,7 @@ function logField(body, name) {
 }
 
 function read(file) { return fs.readFileSync(file, "utf8"); }
+const last = (a) => a[a.length - 1];
 function mdFiles(dir) {
   const d = path.join(root, dir);
   if (!fs.existsSync(d)) return [];
@@ -223,7 +224,7 @@ out.push(`> Generated ${today} by study-coach. Don't edit by hand — run \`/stu
 
 // Headline
 const start = cfg.start || days.find((d) => d.day >= 1)?.date;
-const end = cfg.end || days.at(-1)?.date;
+const end = cfg.end || last(days)?.date;
 const dayNum = start ? daysBetween(start, today) + 1 : null;
 const totalDays = Number(cfg.days) || days.filter((d) => d.day >= 1).length;
 out.push("## Where you are", "");
@@ -285,7 +286,7 @@ if (weeks.length) {
     const res = wd.reduce((n, d) => n + d.resolved.length, 0);
     const started = wd[0].date <= today;
     const reels = wd.reduce((n, d) => n + d.items.filter((i) => isPost(i) && i.state === "done").length, 0);
-    out.push(`| ${w} | ${wd.filter((d) => d.status === "done").length}/${wd.length} | ${wd.filter((d) => d.logged).length} | ${res}/${req} | ${wd.reduce((n, d) => n + d.hours, 0)} | ${reels} | ${started ? commitsBetween(wd[0].date, wd.at(-1).date) : "–"} |`);
+    out.push(`| ${w} | ${wd.filter((d) => d.status === "done").length}/${wd.length} | ${wd.filter((d) => d.logged).length} | ${res}/${req} | ${wd.reduce((n, d) => n + d.hours, 0)} | ${reels} | ${started ? commitsBetween(wd[0].date, last(wd).date) : "–"} |`);
   }
   out.push("");
 }
@@ -331,8 +332,8 @@ if (published.length) {
   for (const p of published) byPlatform[p.platform || "other"] = (byPlatform[p.platform || "other"] || 0) + 1;
   out.push("## Shared", "");
   out.push(`- ${published.length} post(s) published · ` + Object.entries(byPlatform).map(([k, v]) => `${k} ${v}`).join(" · "));
-  const last = published.at(-1);
-  out.push(`- Last: ${last.date || ""} ${last.title || ""}`.trimEnd());
+  const lastPost = last(published);
+  out.push(`- Last: ${lastPost.date || ""} ${lastPost.title || ""}`.trimEnd());
   out.push("");
 }
 
@@ -340,7 +341,7 @@ if (published.length) {
 if (changes.length || proposals.length) {
   const goalChanges = changes.filter((c) => /goal/i.test(c.kind || ""));
   out.push("## Plan changes", "");
-  if (changes.length) out.push(`- ${changes.length} change(s) logged${goalChanges.length ? ` · ${goalChanges.length} goal change(s)` : ""} · last: ${changes.at(-1).date} — ${changes.at(-1).change}`);
+  if (changes.length) out.push(`- ${changes.length} change(s) logged${goalChanges.length ? ` · ${goalChanges.length} goal change(s)` : ""} · last: ${last(changes).date} — ${last(changes).change}`);
   if (proposals.length) out.push(`- ${proposals.length} proposal(s) waiting for the next review`);
   out.push("");
 }

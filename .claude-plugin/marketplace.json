@@ -1,0 +1,14 @@
+{
+  "name": "study-coach",
+  "description": "Learning and self-study tools for Claude Code.",
+  "owner": {
+    "name": "Naval Saini"
+  },
+  "plugins": [
+    {
+      "name": "study-coach",
+      "source": "./",
+      "description": "Self-directed learning coach for following a curriculum: today view, logging, pace dashboard, concept checks."
+    }
+  ]
+}

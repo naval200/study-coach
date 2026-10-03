@@ -1,0 +1,8 @@
+{
+  "name": "study-coach",
+  "version": "0.1.0",
+  "description": "Self-directed learning coach: turns any curriculum into a markdown study workspace, tells you what to do today, tracks pace with a generated dashboard, and quizzes you to depth.",
+  "author": { "name": "Naval Saini" },
+  "license": "MIT",
+  "keywords": ["learning", "curriculum", "study-plan", "coaching", "productivity"]
+}

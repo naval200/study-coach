@@ -358,6 +358,39 @@ if (brief) {
   process.exit(0);
 }
 
+// Optional data file for a progress page: STUDY.md `progress_js: progress.js`.
+// Written as `window.STUDY_PROGRESS = {...}` so a static page can load it from file:// or GitHub Pages.
+function weekIntros() {
+  const f = path.join(root, cfg.plan || "curriculum/plan.md");
+  if (!fs.existsSync(f)) return {};
+  const intros = {};
+  const re = /^## Week (\d+) — (.+)\n\n([^\n]+)/gm;
+  for (const m of read(f).matchAll(re)) intros[m[1]] = { title: m[2].replace(/\s*\(Days.*\)$/, ""), goal: m[3] };
+  return intros;
+}
+if (write && cfg.progress_js) {
+  const data = {
+    generated: today, timezone: tz,
+    curriculum: cfg.curriculum || "",
+    start, end, dayNum, totalDays,
+    pace: pace.replace(/\*\*/g, ""),
+    paceKind: owed.length && aheadItems.length ? "mixed" : owed.length ? "behind" : aheadItems.length ? "ahead" : past.length ? "on-track" : "not-started",
+    streak, missedRun,
+    overall: { done: totalResolved, total: totalRequired },
+    exit: exit && { ...exit, items: parseBoxes(read(path.join(root, cfg.exit_test))).map((b) => ({ text: b.text, state: b.state })) },
+    posts: published.length,
+    reviewsDue: due.map((c) => ({ title: c.title, next: c.next, outcome: c.outcome })),
+    weeks: weekIntros(),
+    tracks: tracks.map((t) => ({ file: t.rel, ...t.p })),
+    days: days.map((d) => ({
+      day: d.day, date: d.date, weekday: weekday(d.date), week: d.week, title: d.title, type: d.type, hours: d.hours,
+      status: d.status, file: d.file, log: d.log,
+      items: d.items.map((i) => ({ text: i.text, label: i.label, section: i.section, state: i.state, optional: i.optional })),
+    })),
+  };
+  fs.writeFileSync(path.join(root, cfg.progress_js), `window.STUDY_PROGRESS = ${JSON.stringify(data, null, 1)};\n`);
+}
+
 const md = out.join("\n");
 if (write) fs.writeFileSync(path.join(root, "DASHBOARD.md"), md);
 process.stdout.write(md);

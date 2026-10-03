@@ -106,6 +106,7 @@ Follow `references/share.md`:
 - **Day frontmatter:** `day`, `date` (YYYY-MM-DD), `week`, `title`, `type` (core / light / setup), `hours`. Only checkboxes under `## Plan` and `## Done when` count: `[ ]` todo, `[x]` done, `[-]` dropped. Items with `(stretch)`, `(if behind)` or `Stretch:` are optional. `**Post:**` items count as posts.
 - **Log lines:** `- **Done:** …`, `- **Blocked:** …`, `- **Tomorrow's first task:** …`
 - **Concept frontmatter:** `title, target, level, last_check, last_checked, review_step, next_review`. Write the review fields only via `scripts/concept.mjs`. Files starting with `_` aren't concepts.
+- **Progress page (optional):** with `progress_js: progress.js` in STUDY.md, the dashboard script also writes that file for a static `index.html`. Ticks made on the page stay in the browser; the learner pastes its "Copy for coach" export into `log`. Treat it like any log: tick only listed items, confirm understanding items with a quick check.
 - **Tables the script reads:** `concepts/_misses.md`, `curriculum/changes.md`, `curriculum/proposals.md` and `posts/published.md`. Keep the header rows from the templates.
 
 ## 5. Coaching style

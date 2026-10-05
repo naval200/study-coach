@@ -1,8 +1,5 @@
 # Changelog
 
-## 0.3.0 — 2026-10-05
-- Four subagents in `agents/`: `planner` (init), `examiner` (check), `reviewer` (weekly review), `publisher` (share). Each reads the skill first and works from dashboard numbers. Plugin installs get them automatically.
-
 ## 0.2.0 — 2026-10-03
 - `check`: confidence × correctness grading (solid / fragile / misconception / gap), zero-hint rules, evidence-backed depth levels, fresh angles each time.
 - Spaced review: `scripts/concept.mjs` schedules reviews on a 1 / 3 / 7 / 16 / 35-day ladder; the dashboard shows reviews due and misconceptions first.

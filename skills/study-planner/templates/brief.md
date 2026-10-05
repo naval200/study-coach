@@ -2,20 +2,30 @@
 
 Written by study-planner on YYYY-MM-DD. study-coach `init` reads this file.
 
-## Goal
-<one sentence, an outcome someone else could see>
+## Destination
+<what the learner will be able to do — a capability someone else could see>
 
-**Why:** <the reason, used to decide what to cut>
+**Plan type:** career change · refresh / repositioning · a few strategic gaps
+**Why:** <the reason; used to decide what to cut>
 **Start:** YYYY-MM-DD · **End:** YYYY-MM-DD · **Days:** N · **Timezone:** <tz>
 **Checkpoints:** 30, 60, 90
+**Mode:** standard · experienced learner
 
-## Starting point
-- Knows: <specific: chapters, exercises, projects>
-- Owns: <books, courses, hardware, accounts, budget>
-- Hours per week kept up last time: <n>
+## Current position
+- **Strong (reuse, don't teach):** <A items>
+- **Rusty (refresh):** <B items>
+- **Transfers by analogy:** <e.g. payments idempotency → message handlers>
+- **Owns:** <books, courses, hardware, accounts, budget>
+- **Depth wanted:** dabble · competent · deep
+- **Learning style:** <hands-on / reading / video / courses>
+
+## Constraints
+- Hours per week kept up last time: <n> · Session length: <n> min · Weekdays / weekends: <…>
+- Intensity tolerance: <light / steady / intense>
+- Job, target roles and companies, interviews, public portfolio: <…>
 
 ## Pace
-**Steady** — <n> hours/week, about <n> <units> per week, finish <date>.
+**Steady** — <n> hours/week, finish <date>.
 (Relaxed: finish <date> · Faster: finish <date>)
 
 ## Run-sheet
@@ -23,7 +33,7 @@ Written by study-planner on YYYY-MM-DD. study-coach `init` reads this file.
 |---|---|---|
 | | Learn | |
 | | Build | |
-| | Post / Log | |
+| | Log | |
 
 Light day: <weekday> — review, write-up, catch-up. No new material.
 

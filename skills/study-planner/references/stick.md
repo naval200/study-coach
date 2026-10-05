@@ -2,8 +2,10 @@
 
 A plan survives when a bad day has a small, clear next step. Build these in with the learner, in their words.
 
-## Size to real hours
-Plan to the hours they kept up last time, not the hours they hope for. If unsure, take 70% of what they say. A plan that is finished early can grow at a checkpoint; a plan that is behind from week 1 dies.
+## Size to real hours and energy
+Plan to the hours they kept up last time, not the hours they hope for. If unsure, take 70% of what they say. Fit blocks to their real session length and to weekday vs weekend time, and ask how intense a week they can sustain for months. A plan that is finished early can grow at a checkpoint; a plan that is behind from week 1 dies.
+
+For experienced learners, a slower, lighter plan is often better: retention and application matter more than syllabus speed.
 
 ## One unit, one rhythm
 Pick one unit of progress the learner can count (a lesson, a chapter, a Build task) and a steady number per week. Show pace as "about N per week, done by <date>". Offer Relaxed / Steady / Faster with the finish date for each.

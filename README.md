@@ -19,19 +19,23 @@ A Claude Code skill that coaches you through a self-directed curriculum. Give it
 ## No plan yet? Start with study-planner
 
 ```
-/study-planner become an LLM engineer in 90 days
+/study-planner move into AI infrastructure in 12 weeks
 ```
 
-A second skill in this plugin. It talks you through:
+A second skill in this plugin. It plans like a technical architect, not a course catalog: it works backward from your goal and plans only the gap.
 
-1. **The end objective:** one outcome someone else could see, with a date.
-2. **An exit test:** 5–10 checks that prove you got there, written before any topic.
-3. **Your starting point:** what you know, what you own, and the hours you really kept up last time.
-4. **Foundations:** for each check, "what must I already be able to do?", down to what you know. Skills under several checks go first, learned by building. Topics no check needs are skipped.
-5. **Shape and pace:** weeks that each end in a deliverable, days with Learn / Build / Done when, and Relaxed / Steady / Faster shown as finish dates.
-6. **Making it stick:** a 20-minute minimum day, hard time boxes, a scope-cut rule, a parking lot for new courses, and a pre-mortem turned into if-then rules.
+**target → capabilities needed → what you already have → gaps → minimum curriculum → resources → exercises → schedule → checkpoints**
 
-Then `/study-coach init curriculum/plan.md` runs it.
+- **Capabilities, not topics:** "learn Rust" becomes "write and debug production Rust services".
+- **Audit first:** each capability is classed strong, rusty, partial, new or irrelevant. Strong is skipped, rusty gets a refresher, only real gaps get full modules.
+- **Smallest plan that closes the gap:** a dependency graph with parallel tracks, a pruning pass, and a list of what was skipped and why.
+- **Resources after the gap:** a source stack per topic (primary, reference, practice, real-world, validation) instead of one giant course.
+- **Mostly doing:** 60–80% active work, production-like projects, checkpoints such as "can design and debug X", not "72% of the course".
+- **Experienced Learner Mode:** for professionals. Diagnose, refresh, close the delta; do not relearn the field.
+- **Built to stick:** sized to your real hours, a 20-minute minimum day, a scope-cut rule and a pre-mortem.
+- **Why this plan:** every plan ends with what was assumed, prioritized and skipped, so you can change it.
+
+It writes `curriculum/brief.md`, `gaps.md`, `exit-test.md` and `plan.md`. Then `/study-coach init curriculum/plan.md` runs it. Guide: [study-planner docs](https://naval200.github.io/study-coach/planner.html).
 
 ## Install
 

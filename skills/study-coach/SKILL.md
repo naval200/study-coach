@@ -95,9 +95,9 @@ Follow `references/share.md`:
 5. Offer `share` for the weekly write-up: one long blog post plus a carousel.
 
 ### init \<curriculum\>: turn a plan into a workspace
-No plan yet, or the learner is unsure what to study? Use the `study-planner` skill first; it writes `curriculum/brief.md`, `exit-test.md`, `foundations.md` and `plan.md`.
+No plan yet, or the learner is unsure what to study? Use the `study-planner` skill first; it writes `curriculum/brief.md`, `gaps.md`, `exit-test.md` and `plan.md`.
 1. Save the plan as `curriculum/plan.md`. Normalize it to `### Day N · <weekday date> — Title` headings with `- **Label:** text` bullets, keeping the learner's wording.
-2. If `curriculum/brief.md` exists, take the goal, dates, hours, pace, run-sheet, rules, minimum day and pre-mortem from it and only confirm what is missing. Otherwise confirm the start date, timezone, time budget, goal, default depth, post formats and change cadence. Write `STUDY.md` with these frontmatter keys: `curriculum, plan, start, end, days, timezone, hours_target_per_week, scope_cut_after_missed, exit_test, exit_test_pass, default_depth, post_formats, checkpoints, goal_cooldown_days, max_swaps_per_week`. Add the goal, learner profile, run-sheet and rules.
+2. If `curriculum/brief.md` exists, take the destination, current position, dates, hours, pace, run-sheet, rules, minimum day and pre-mortem from it (the learner profile comes from *Current position* and *Constraints*) and only confirm what is missing. Otherwise confirm the start date, timezone, time budget, goal, default depth, post formats and change cadence. Write `STUDY.md` with these frontmatter keys: `curriculum, plan, start, end, days, timezone, hours_target_per_week, scope_cut_after_missed, exit_test, exit_test_pass, default_depth, post_formats, checkpoints, goal_cooldown_days, max_swaps_per_week`. Add the goal, learner profile, run-sheet and rules.
 3. Create one `days/dayNN.md` per scheduled day from `templates/day.md`. Mark optional items `(stretch)` or `(if behind)`.
 4. Create the course and book files, the parking lot, the exit test, and empty `curriculum/changes.md`, `curriculum/proposals.md`, `concepts/_misses.md` and `posts/published.md`, all from templates.
 5. Run the dashboard and show the `today` view.

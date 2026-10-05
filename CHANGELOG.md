@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.0 — 2026-10-05
+- `study-planner` rewritten around a first-principles method: target → required capabilities → audit → gaps → minimum curriculum → resources → exercises → schedule → checkpoints. Optimizes time-to-capability, not coverage.
+- Capability audit with five classes (strong, rusty, partial, new, irrelevant) and progressive compression; ranked gaps; dependency graph with parallel tracks; source stacks; 60–80% active work; production-realism check; just-in-time depth; capability checkpoints; a pruning pass; a "Why this plan" section.
+- Experienced Learner Mode with a worked example (`references/experienced.md`).
+- New `curriculum/gaps.md` replaces `foundations.md`; `plan.md` now has modules (capability, why, prerequisites, material, practice, done, effort).
+- Depth, learning-style and quality-check ideas adapted from [learn-anything-roadmap](https://github.com/mohitagw15856/pm-claude-skills/blob/main/skills/learn-anything-roadmap/SKILL.md) (MIT).
+
 ## 0.3.0 — 2026-10-05
 - New `study-planner` skill: builds a plan from scratch. Starts from an end objective and an exit test, maps the foundations to build on (and what to skip), sizes the plan to real weekly hours with Relaxed / Steady / Faster pace, and adds a minimum day, rules and a pre-mortem so the plan survives bad weeks. Writes `curriculum/brief.md`, `exit-test.md`, `foundations.md` and `plan.md`.
 - `init` reads `curriculum/brief.md` when present and only asks for what is missing.

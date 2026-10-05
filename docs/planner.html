@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Study Planner Guide</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<nav><a href="index.html">Overview</a><a href="planner.html" aria-current="page">Make a plan</a><a href="workspace.html">Files</a><a href="modes.html">Commands</a><a href="check.html">Concept checks</a><a href="adapt.html">Plan changes</a><a href="share.html">Posts</a></nav>
+
+<h1>Make a plan</h1>
+<p class="lead">Study Planner makes a learning plan from your goal. It plans only what you do not know yet.</p>
+
+<h2>Start</h2>
+<p>Tell Claude your goal in a few words:</p>
+<pre>/study-planner move into AI infrastructure in 12 weeks</pre>
+<p>The planner asks you questions, one or two at a time. It does not write files until you approve the plan.</p>
+
+<h2>The main idea</h2>
+<p>Most plans start with a course and try to finish it. This planner starts with your goal. Then it finds the gap between what you can do now and what the goal needs. The plan covers only that gap.</p>
+<div class="note">A good plan feels like "everything I need". It does not feel like "everything there is to learn".</div>
+
+<h2>The steps</h2>
+<ol>
+<li><strong>Goal.</strong> You say what you want to be able to do, and by when. Example: get a backend job, build an agent system, pass senior interviews.</li>
+<li><strong>Capabilities.</strong> The planner changes the goal into things you must be able to do. "Learn Rust" becomes "write and debug production Rust services".</li>
+<li><strong>Audit.</strong> The planner asks what you have done, built and used. It asks what is rusty and what is new. If it is not sure, it gives you a short test.</li>
+<li><strong>Classes.</strong> It puts each capability in one class (see the table below).</li>
+<li><strong>Gaps.</strong> It ranks the gaps. It keeps the 3 to 10 most important ones.</li>
+<li><strong>Order.</strong> It puts the gaps in order of what depends on what. Topics that do not depend on each other run at the same time.</li>
+<li><strong>Resources.</strong> It picks resources after it knows the gap. It names the chapter, page or video.</li>
+<li><strong>Practice.</strong> Most of the time is for doing: build, debug, test, measure, design.</li>
+<li><strong>Schedule.</strong> It fits the plan to the hours you really have.</li>
+<li><strong>Checks.</strong> Each module ends with a test of what you can do.</li>
+<li><strong>Prune.</strong> It reads the plan again and removes what is not needed.</li>
+</ol>
+
+<h2>The five classes</h2>
+<table>
+<tr><th>Class</th><th>Meaning</th><th>What the plan does</th></tr>
+<tr><td>A · Strong</td><td>You used it in production</td><td>Skip it</td></tr>
+<tr><td>B · Rusty</td><td>You learned it, but not lately</td><td>Short recap, then 3 to 5 exercises</td></tr>
+<tr><td>C · Partial</td><td>You know the idea, but you did not build with it</td><td>Teach the missing parts, with exercises</td></tr>
+<tr><td>D · New</td><td>You never learned it</td><td>A full module: ideas, examples, exercises, a project</td></tr>
+<tr><td>E · Not needed</td><td>The goal does not need it</td><td>Skip it, and say why</td></tr>
+</table>
+
+<h2>Each module</h2>
+<p>Each module in the plan has these parts:</p>
+<ul>
+<li><strong>Capability:</strong> what you can do at the end</li>
+<li><strong>Why it matters:</strong> how it helps the goal</li>
+<li><strong>Prerequisites:</strong> what you need first</li>
+<li><strong>Learning material:</strong> a stack of sources — a main source, a reference, practice, a real-world example</li>
+<li><strong>Practice:</strong> work that looks like real work</li>
+<li><strong>Done when:</strong> a test you can pass or fail</li>
+<li><strong>Effort:</strong> the hours it will take</li>
+</ul>
+<p>Good test: "I can design a job queue and explain how it fails." Bad test: "I finished 72% of the course."</p>
+
+<h2>Experienced Learner Mode</h2>
+<p>Use this mode if you already work in the field, or if you did most of this before. Tell the planner. It will then:</p>
+<ul>
+<li>test before it teaches</li>
+<li>skip the basics that you already use at work</li>
+<li>give short refreshers, not full courses</li>
+<li>give fewer exercises, but more realistic ones</li>
+<li>make the plan shorter and lighter</li>
+</ul>
+<div class="note">Do not relearn the field. Close the gap.</div>
+
+<h2>Plans that last</h2>
+<ul>
+<li>The plan uses the hours you kept last time, not the hours you hope for.</li>
+<li>One day each week has no new material. Use it to review and catch up.</li>
+<li>A <strong>minimum day</strong> is a 20-minute version of a day. It still counts.</li>
+<li>If you miss two days, the plan gets smaller. You do not add hours.</li>
+<li>New courses and books go to a list for later. They do not go into the plan.</li>
+<li>A <strong>pre-mortem</strong>: you say why you might stop. Each reason gets an "if this, then that" rule.</li>
+</ul>
+
+<h2>What you get</h2>
+<table>
+<tr><th>File</th><th>Contents</th></tr>
+<tr><td><code>curriculum/brief.md</code></td><td>Goal, what you know, your time, pace, rules, minimum day</td></tr>
+<tr><td><code>curriculum/gaps.md</code></td><td>Your capabilities and classes, the ranked gaps, the order, what was skipped</td></tr>
+<tr><td><code>curriculum/exit-test.md</code></td><td>The checks that show you reached the goal</td></tr>
+<tr><td><code>curriculum/plan.md</code></td><td>Modules, days, and "Why this plan"</td></tr>
+</table>
+<p>The last part of the plan, "Why this plan", says what the planner assumed, what it put first, and what it skipped. Read it. Change what is wrong.</p>
+
+<h2>Next step</h2>
+<p>Tell Claude: <code>/study-coach init curriculum/plan.md</code>. The coach makes your day files and your dashboard. Then it runs the plan with you each day.</p>
+
+<p class="next">Next: <a href="workspace.html">The files in your study folder →</a></p>
+
+</main>
+</body>
+</html>

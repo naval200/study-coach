@@ -242,6 +242,7 @@ out.push(`- **Pace:** ${pace}`);
 out.push(`- **Streak:** ${streak} day(s) logged in a row`);
 if (missedRun >= scopeCutAfter) out.push(`- ⚠️ **${missedRun} days missed in a row** — plan rule: cut scope, don't add hours.`);
 if (exit) out.push(`- **Exit test:** ${exit.done}/${exit.total} (pass ≥ ${exit.pass})`);
+if (cfg.pages_url) out.push(`- **Online:** ${cfg.pages_url}`);
 out.push("");
 
 // Reviews due

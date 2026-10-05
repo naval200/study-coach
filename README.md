@@ -13,6 +13,7 @@ A Claude Code skill that coaches you through a self-directed curriculum. Give it
 /study-coach share            turn today's work into a blog + LinkedIn / X / Instagram carousel / YouTube text
 /study-coach capture idea|article|book …
 /study-coach review           weekly scorecard
+/study-coach online           put my progress on a free web page that updates itself
 /study-coach init plan.md     turn a curriculum into a workspace
 ```
 
@@ -71,6 +72,16 @@ Try it on the sample:
 ```bash
 node skills/study-coach/scripts/dashboard.mjs examples/sample-workspace --today 2026-01-06 --no-write
 ```
+
+## Put your progress online (optional)
+
+```
+/study-coach online
+```
+
+You do not need to know git or GitHub. The coach checks the tools, tells you how to make a free GitHub account, and has you sign in with `gh auth login` in your own browser. Then it makes the repo, adds a progress page (`templates/progress-page.html`) and turns on GitHub Pages. It never makes accounts or types passwords for you.
+
+After that, each `log`, `check`, `review`, `adapt`, `share` or `capture` ends with `scripts/sync.mjs`. It commits only the workspace files, refuses `private.md` and `.env` files, pulls, and pushes. The page at `https://<you>.github.io/<repo>/` updates in about a minute. Set `sync: ask` or `sync: off` in `STUDY.md` to change this. Plain-English guide: [Go online](https://naval200.github.io/study-coach/online.html).
 
 ## See it in use
 

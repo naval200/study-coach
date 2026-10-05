@@ -1,7 +1,7 @@
 ---
 name: study-coach
-description: Self-directed learning coach that runs a curriculum from a markdown study workspace (STUDY.md, days/, courses/, books/, articles/, concepts/, ideas/, posts/, DASHBOARD.md). Use when the user asks what to do today, how they're progressing on their plan or roadmap, wants to log a study day, check whether they really understand a concept, review due concepts, capture an idea/article/paper/book, change or re-plan their curriculum or goal (including "I found an interesting paper/job post"), turn progress into a blog or social posts, run a weekly review, or set up a new curriculum.
-argument-hint: "[today | log | status | check <concept> | adapt <change> | share | capture <idea|article|book> | review | init <file>]"
+description: Self-directed learning coach that runs a curriculum from a markdown study workspace (STUDY.md, days/, courses/, books/, articles/, concepts/, ideas/, posts/, DASHBOARD.md). Use when the user asks what to do today, how they're progressing on their plan or roadmap, wants to log a study day, check whether they really understand a concept, review due concepts, capture an idea/article/paper/book, change or re-plan their curriculum or goal (including "I found an interesting paper/job post"), turn progress into a blog or social posts, run a weekly review, set up a new curriculum, or put their progress online (GitHub repo, GitHub Pages dashboard, automatic save).
+argument-hint: "[today | log | status | check <concept> | adapt <change> | share | capture <idea|article|book> | review | online | init <file>]"
 ---
 
 # Study Coach
@@ -26,7 +26,7 @@ posts/              YYYY-MM-DD-slug/{blog.md, variants.md}, published.md
 reviews/            week-N.md
 ```
 
-Templates for every file are in `templates/` next to this file. Detailed procedures are in `references/`; read the matching one before running `check`, `adapt` or `share`.
+Templates for every file are in `templates/` next to this file. Detailed procedures are in `references/`; read the matching one before running `check`, `adapt`, `share` or `online`.
 
 ## 2. Always refresh the numbers first
 
@@ -35,6 +35,21 @@ node <this-skill-dir>/scripts/dashboard.mjs <workspace-root>
 ```
 
 This rewrites `DASHBOARD.md` and prints it: day N of M, pace, items owed, streak, missed run, reviews due, misconceptions, repeat misses, plan changes, posts. Use its numbers; never recount by hand. Read `STUDY.md` for rules and the learner profile. Re-run the script after changing any workspace file.
+
+## 2b. Save and publish after every change
+
+After a mode writes workspace files (`log`, `check`, `review`, `adapt`, `share`, `capture`, `init`), re-run the dashboard, then run:
+
+```bash
+node <this-skill-dir>/scripts/sync.mjs <workspace-root> -m "<short summary, e.g. Log Day 3: SQL joins>"
+```
+
+- `sync: auto` in STUDY.md: the script commits the workspace files and pushes them. It never asks.
+- `sync: ask`: ask "Save and publish now?" On yes, run it again with `--yes`.
+- `sync: off` or not set: the script does nothing. Once, after the first `log`, offer `online`.
+- Report the result in one line, for example "Saved and published. The page updates in about 1 minute."
+- If the script prints an error, explain it in plain words and use the table in `references/online.md`. Never use `git push --force`.
+- Do not run `git add`, `git commit` or `git push` by hand for workspace files. The script stages only workspace paths and refuses private files.
 
 ## 3. Modes
 
@@ -52,7 +67,8 @@ Pick the mode from the arguments or the user's wording. No argument → `today`.
 2. Fill `## Log` (**Done**, **Blocked**, **Tomorrow's first task**) in their words, tightened.
 3. If a Done-when item is about understanding ("explain…", "from memory"), run a quick `check` before ticking it. Saying "I get it" isn't evidence.
 4. Update course and book progress. Re-run the dashboard and give pace in one line.
-5. If the day had a Post item that isn't done, offer `share`.
+5. Save and publish (section 2b). Report the result in the same line as the pace.
+6. If the day had a Post item that isn't done, offer `share`. If the learner does not want to post, mark it `[-]` with the reason. Do not tick it.
 
 ### status: "how am I progressing?"
 At most 8 lines: day N/M, pace with numbers, this week's deliverable and whether it's on track, streak, exit test, reviews due, concepts below target, posts shared. Then one recommendation:
@@ -82,6 +98,14 @@ Follow `references/share.md`:
 - Derive `variants.md` for the platforms in `post_formats`: LinkedIn, an X thread, an Instagram carousel with text slides, a YouTube community post, and an optional voice-over script.
 - After publishing, log each one in `posts/published.md` and tick the Post item.
 
+### online: put the dashboard on the web
+Follow `references/online.md`. Many learners do not know git or GitHub, so explain each step in plain words and do one step at a time.
+- Check git and the GitHub CLI (`gh`), and give the install command if one is missing.
+- The learner creates the GitHub account and signs in with `gh auth login`. Never create accounts or type passwords.
+- Before the first push, say that a public repo shows every committed file. Get a clear yes.
+- Create the repo with `gh`, add the progress page, turn on GitHub Pages, and write `sync`, `remote` and `pages_url` into STUDY.md.
+- End with the page link and one line on what now happens automatically.
+
 ### capture \<idea | article | book\>
 - **idea:** append `- YYYY-MM-DD — idea — (source)` to `ideas/inbox.md`. If it could change the plan, run the `adapt` intake instead.
 - **article / paper / video:** create `articles/YYYY-MM-DD-slug.md` from `templates/article.md`. Then ask 2–3 Q&A questions with no hints and record the answers with corrections. If it introduces a concept they need, create the concept file and schedule its first review.
@@ -97,17 +121,19 @@ Follow `references/share.md`:
 ### init \<curriculum\>: turn a plan into a workspace
 No plan yet, or the learner is unsure what to study? Use the `study-planner` skill first; it writes `curriculum/brief.md`, `gaps.md`, `exit-test.md` and `plan.md`.
 1. Save the plan as `curriculum/plan.md`. Normalize it to `### Day N · <weekday date> — Title` headings with `- **Label:** text` bullets, keeping the learner's wording.
-2. If `curriculum/brief.md` exists, take the destination, current position, dates, hours, pace, run-sheet, rules, minimum day and pre-mortem from it (the learner profile comes from *Current position* and *Constraints*) and only confirm what is missing. Otherwise confirm the start date, timezone, time budget, goal, default depth, post formats and change cadence. Write `STUDY.md` with these frontmatter keys: `curriculum, plan, start, end, days, timezone, hours_target_per_week, scope_cut_after_missed, exit_test, exit_test_pass, default_depth, post_formats, checkpoints, goal_cooldown_days, max_swaps_per_week`. Add the goal, learner profile, run-sheet and rules.
+2. If `curriculum/brief.md` exists, take the destination, current position, dates, hours, pace, run-sheet, rules, minimum day and pre-mortem from it (the learner profile comes from *Current position* and *Constraints*) and only confirm what is missing. Otherwise confirm the start date, timezone, time budget, goal, default depth, post formats and change cadence. Write `STUDY.md` with these frontmatter keys: `curriculum, plan, start, end, days, timezone, hours_target_per_week, scope_cut_after_missed, exit_test, exit_test_pass, default_depth, post_formats, checkpoints, goal_cooldown_days, max_swaps_per_week, sync, remote, pages_url`. Add the goal, learner profile, run-sheet and rules.
 3. Create one `days/dayNN.md` per scheduled day from `templates/day.md`. Mark optional items `(stretch)` or `(if behind)`.
 4. Create the course and book files, the parking lot, the exit test, and empty `curriculum/changes.md`, `curriculum/proposals.md`, `concepts/_misses.md` and `posts/published.md`, all from templates.
-5. Run the dashboard and show the `today` view.
+5. Ask: "Do you want an online progress page that updates on its own?" On yes, run `online`. On no, set `sync: off`.
+6. Run the dashboard and show the `today` view.
 
 ## 4. File conventions the dashboard relies on
 
 - **Day frontmatter:** `day`, `date` (YYYY-MM-DD), `week`, `title`, `type` (core / light / setup), `hours`. Only checkboxes under `## Plan` and `## Done when` count: `[ ]` todo, `[x]` done, `[-]` dropped. Items with `(stretch)`, `(if behind)` or `Stretch:` are optional. `**Post:**` items count as posts.
 - **Log lines:** `- **Done:** …`, `- **Blocked:** …`, `- **Tomorrow's first task:** …`
 - **Concept frontmatter:** `title, target, level, last_check, last_checked, review_step, next_review`. Write the review fields only via `scripts/concept.mjs`. Files starting with `_` aren't concepts.
-- **Progress page (optional):** with `progress_js: progress.js` in STUDY.md, the dashboard script also writes that file for a static `index.html`. Ticks made on the page stay in the browser; the learner pastes its "Copy for coach" export into `log`. Treat it like any log: tick only listed items, confirm understanding items with a quick check.
+- **Sync keys (optional):** `sync` (auto / ask / off), `remote` (default `origin`), `pages_url`, `sync_include` (extra paths, comma-separated, for example `projects`). `sync.mjs` reads them.
+- **Progress page (optional):** with `progress_js: progress.js` in STUDY.md, the dashboard script also writes that file for a static `index.html`. The page is `templates/progress-page.html`, copied to `index.html`. Ticks made on the page stay in the browser; the learner pastes its "Copy for coach" export into `log`. Treat it like any log: tick only listed items, confirm understanding items with a quick check.
 - **Tables the script reads:** `concepts/_misses.md`, `curriculum/changes.md`, `curriculum/proposals.md` and `posts/published.md`. Keep the header rows from the templates.
 
 ## 5. Coaching style

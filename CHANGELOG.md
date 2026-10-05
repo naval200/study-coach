@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0 — 2026-10-05
+- New `online` mode (`references/online.md`): a step-by-step setup for learners who do not know git. It checks git and `gh`, guides the GitHub sign-up and `gh auth login`, creates the repo, adds the progress page and turns on GitHub Pages. The learner makes the account and signs in; the coach never types passwords.
+- New `scripts/sync.mjs`: commits only workspace paths, refuses `private.md` and `.env` files, pulls with rebase, pushes, and prints the page link. Plain-English errors for login, network and conflicts.
+- Automatic save: after `log`, `check`, `review`, `adapt`, `share`, `capture` and `init`, the coach runs `sync.mjs`. New STUDY.md keys: `sync` (auto / ask / off), `remote`, `pages_url`, `sync_include`.
+- `templates/progress-page.html`: the static progress page that reads `progress.js`.
+- `init` offers the online page. The dashboard shows the page link.
+- `log`: a Post item that the learner does not share is marked `[-]`, not ticked.
+- New docs page: [Go online](https://naval200.github.io/study-coach/online.html), written for people who do not know GitHub.
+
 ## 0.4.1 — 2026-10-05
 - Both skills write responses and workspace text in ASD-STE100 Simplified Technical English (target: 80% or more of sentences).
 - `tools/ste-check.mjs`: a heuristic STE check (sentence length, passive voice, contractions, -ing forms, paragraph length). Not the official STE dictionary. The docs site passes at 99%+.

@@ -8,7 +8,7 @@
 </head>
 <body>
 <main>
-<nav><a href="index.html">Overview</a><a href="walkthrough.html">Walkthrough</a><a href="planner.html">Make a plan</a><a href="workspace.html">Files</a><a href="modes.html" aria-current="page">Commands</a><a href="check.html">Concept checks</a><a href="adapt.html">Plan changes</a><a href="share.html">Posts</a></nav>
+<nav><a href="index.html">Overview</a><a href="walkthrough.html">Walkthrough</a><a href="planner.html">Make a plan</a><a href="workspace.html">Files</a><a href="modes.html" aria-current="page">Commands</a><a href="check.html">Concept checks</a><a href="adapt.html">Plan changes</a><a href="share.html">Posts</a><a href="online.html">Go online</a></nav>
 
 <h1>Commands</h1>
 <p class="lead">Type <code>/study-coach</code> and a command. You can also ask in normal words.</p>
@@ -24,6 +24,7 @@
 <tr><td><code>capture &lt;item&gt;</code></td><td>You want to save an idea, article, or book</td></tr>
 <tr><td><code>review</code></td><td>The week ends (usually Sunday)</td></tr>
 <tr><td><code>init &lt;file&gt;</code></td><td>You start a new plan</td></tr>
+<tr><td><code>online</code></td><td>You want a web page that shows your progress. See <a href="online.html">Go online</a>.</td></tr>
 <tr><td><code>/study-planner &lt;goal&gt;</code></td><td>You have no plan yet. This is a separate skill. See <a href="planner.html">Make a plan</a>.</td></tr>
 </table>
 <p>If you give no command, the coach uses <code>today</code>.</p>
@@ -44,6 +45,7 @@
 <li>It writes the Done, Blocked, and Tomorrow lines.</li>
 <li>If an item says "explain" or "from memory", the coach asks a quick question first.</li>
 <li>It updates course and book progress. Then it tells you your pace.</li>
+<li>If you set up <a href="online.html">online</a>, it saves your files and updates your web page.</li>
 </ol>
 
 <h2>status</h2>
@@ -76,8 +78,18 @@
 <li>It asks for the start date, hours, goal, and other settings.</li>
 <li>It writes <code>STUDY.md</code>.</li>
 <li>It makes one day file for each day, and all other files.</li>
+<li>It asks if you want an online progress page.</li>
 <li>It shows the <code>today</code> view.</li>
 </ol>
+
+<h2>online</h2>
+<ol>
+<li>The coach checks that <code>git</code> and <code>gh</code> are installed.</li>
+<li>You make a free GitHub account and sign in. The coach tells you each step.</li>
+<li>The coach makes the repo, adds the web page, and turns on GitHub Pages.</li>
+<li>After that, each log saves your files and updates the page.</li>
+</ol>
+<p>See <a href="online.html">Go online</a> for the full steps, in plain words.</p>
 
 <p class="next">Next: <a href="check.html">Concept checks →</a></p>
 

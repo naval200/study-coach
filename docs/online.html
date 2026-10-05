@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Study Coach Online</title>
+<meta name="description" content="Put your study progress on a free web page that updates on its own. No git knowledge needed.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<nav><a href="index.html">Overview</a><a href="walkthrough.html">Walkthrough</a><a href="planner.html">Make a plan</a><a href="workspace.html">Files</a><a href="modes.html">Commands</a><a href="check.html">Concept checks</a><a href="adapt.html">Plan changes</a><a href="share.html">Posts</a><a href="online.html" aria-current="page">Go online</a></nav>
+
+<h1>Put your progress online</h1>
+<p class="lead">A free web page that shows your plan and your progress. The coach updates it after each log. You do not need to know git.</p>
+
+<p>Type this in Claude Code, in your study folder:</p>
+<pre class="cmd">/study-coach online</pre>
+<p>The coach does the work one step at a time. It explains each step. It stops when it needs you.</p>
+
+<h2>What you get</h2>
+<ul>
+<li>A page at an address like <code>https://yourname.github.io/study/</code>. You can send this link to friends, a mentor or an employer.</li>
+<li>An online copy of all your study files. If your computer breaks, your plan and logs are safe.</li>
+<li>Automatic updates. After each <code>log</code>, <code>check</code> or <code>review</code>, the coach saves your files and sends them online. The page changes in about 1 minute.</li>
+</ul>
+<p>This is optional. Without it, the coach works the same way. Your files stay only on your computer.</p>
+
+<h2>The words, in plain English</h2>
+<table>
+<tr><th>Word</th><th>Meaning</th></tr>
+<tr><td>git</td><td>A free program that saves versions of a folder. One saved version is a <b>commit</b>.</td></tr>
+<tr><td>GitHub</td><td>A website that keeps an online copy of a git folder. It is free for this use.</td></tr>
+<tr><td>Repository (repo)</td><td>The online copy of one folder on GitHub.</td></tr>
+<tr><td>Push</td><td>Send your new commits to GitHub.</td></tr>
+<tr><td>GitHub Pages</td><td>Free web hosting from GitHub. It shows the <code>index.html</code> file from your repo as a web page.</td></tr>
+<tr><td><code>gh</code></td><td>The GitHub program for the terminal. The coach uses it to make the repo and turn on Pages.</td></tr>
+</table>
+
+<h2>What you do, and what the coach does</h2>
+<table>
+<tr><th>Step</th><th>You</th><th>The coach</th></tr>
+<tr><td>1. Choose</td><td>Choose: online page, backup only, or local only.</td><td>Explains the choices.</td></tr>
+<tr><td>2. Tools</td><td>Run the install command if the coach asks. It can need your computer password.</td><td>Checks for <code>git</code> and <code>gh</code>. Gives the install command for your computer.</td></tr>
+<tr><td>3. Account</td><td>Make a free account at <a href="https://github.com/signup">github.com/signup</a>. Verify your email.</td><td>Tells you what to choose on each screen.</td></tr>
+<tr><td>4. Sign in</td><td>Type <code>! gh auth login</code> and follow the browser steps.</td><td>Tells you which options to pick. Checks that the sign-in works.</td></tr>
+<tr><td>5. Repo</td><td>Say yes to the name, and to public or private.</td><td>Makes the repo, adds the page, and saves the settings.</td></tr>
+<tr><td>6. First save</td><td>Read the file list. Say yes.</td><td>Shows the files that go online. Then sends them.</td></tr>
+<tr><td>7. Page</td><td>Open the link.</td><td>Turns on GitHub Pages and waits until the page is ready.</td></tr>
+</table>
+<div class="note">The coach never makes accounts for you. It never types or reads your password. You do the sign-in in your own browser.</div>
+
+<h2>Public or private?</h2>
+<ul>
+<li><b>Public:</b> anyone can read your study files. A free account needs a public repo for the web page. This is good if you learn in public.</li>
+<li><b>Private:</b> only you can see the files. A free account gets no web page, but you get an online backup.</li>
+</ul>
+<p>Put personal notes in <code>private.md</code>. The coach adds it to <code>.gitignore</code>, a list of files that git does not save. The save script also refuses <code>private.md</code> and <code>.env</code> files.</p>
+<p>Your code in <code>projects/</code> does not go online automatically. Tell the coach if you want it to.</p>
+
+<h2>After setup</h2>
+<p>You do nothing more. At the end of each log, the coach writes one line, for example:</p>
+<pre>sync: saved 6 file(s) (commit 7855e05), pushed to origin/main.
+sync: online dashboard: https://yourname.github.io/study/ (updates in about 1 minute).</pre>
+<p>The page has checkboxes. Ticks on the page stay in your browser only. To record them, click <b>Copy for coach</b>. Then paste the text into <code>/study-coach log</code>.</p>
+
+<h2>Settings</h2>
+<p>The settings are at the top of <code>STUDY.md</code>:</p>
+<pre>sync: auto          # auto = save and send after each change
+                    # ask  = ask you each time
+                    # off  = do not save online
+remote: origin
+pages_url: https://yourname.github.io/study/</pre>
+<p>To stop the automatic save, change <code>sync: auto</code> to <code>sync: off</code>.</p>
+
+<h2>Problems</h2>
+<details>
+<summary>"GitHub did not accept your login"</summary>
+<p>Your sign-in ended. Type <code>! gh auth login</code> again, then <code>! gh auth setup-git</code>. Then ask the coach to save again.</p>
+</details>
+<details>
+<summary>"no network"</summary>
+<p>Nothing is lost. The coach saved a commit on your computer. It sends it the next time you log with a network.</p>
+</details>
+<details>
+<summary>The page shows "404"</summary>
+<p>The first page can take up to 10 minutes. Wait, then reload. If it still shows 404, ask the coach: "check my GitHub Pages".</p>
+</details>
+<details>
+<summary>"the online copy has changes that conflict"</summary>
+<p>You changed a file on GitHub and on your computer. Ask the coach to fix it. It keeps both changes.</p>
+</details>
+<details>
+<summary>I already have a repo for my study folder</summary>
+<p>Run <code>/study-coach online</code>. The coach finds the repo and only adds the missing parts.</p>
+</details>
+
+<p class="next">Back to: <a href="index.html">Overview →</a></p>
+
+</main>
+</body>
+</html>

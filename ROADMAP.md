@@ -3,6 +3,7 @@
 ## Done
 - v0.1: workspace convention, dashboard, modes today / log / status / check / capture / review / init.
 - v0.2: confidence × correctness grading, zero-hint checks, evidence-backed depth, spaced review ladder (`concept.mjs`), miss log + watchlist, `adapt` (intake, cadence, cost, changelog), `share` (blog → LinkedIn / X / carousel / YouTube), SessionStart hook.
+- v0.5: `online` mode (GitHub repo + Pages setup for beginners), `sync.mjs` automatic save and publish, progress page template.
 
 ## Next
 - [ ] **Goal tree:** goal → milestones → weeks. Each day item links to the milestone it serves, and status reports goal progress, not just task progress.

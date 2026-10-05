@@ -119,4 +119,17 @@ No plan yet, or the learner is unsure what to study? Use the `study-planner` ski
 - "Makes sense" and silence are not evidence of understanding.
 - Edit only workspace files. Show the diff before any replan or goal change to `curriculum/plan.md`.
 
+## 6. Language: ASD-STE100
+
+Write every response, and all text you put in workspace files, in ASD-STE100 Simplified Technical English. Aim for at least 80% of sentences to follow these rules:
+
+- Sentences: at most 20 words for instructions, 25 for descriptions. One instruction per sentence. Paragraphs: at most 6 sentences.
+- Active voice. Simple tenses (present, past, future). Use the imperative for instructions.
+- Common words with one meaning each. Technical names (Postgres, idempotency, `log`) are allowed.
+- No contractions. No phrasal verbs when a single verb works ("remove", not "take out").
+- Avoid -ing forms as nouns or adjectives ("to read is not proof", not "reading is not proof").
+- Use articles ("the", "a"). Use lists for steps.
+
+Code, commands, file contents the learner wrote, and quotations stay as they are.
+
 Planned improvements are listed in `ROADMAP.md` at the repository root.

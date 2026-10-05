@@ -1,6 +1,6 @@
 {
   "name": "study-coach",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Self-directed learning: plan from an end objective (study-planner), then run the plan with a dashboard, depth checks and posts (study-coach).",
   "author": {
     "name": "Naval Saini"

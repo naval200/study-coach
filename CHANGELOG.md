@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.1 — 2026-10-05
+- Both skills write responses and workspace text in ASD-STE100 Simplified Technical English (target: 80% or more of sentences).
+- `tools/ste-check.mjs`: a heuristic STE check (sentence length, passive voice, contractions, -ing forms, paragraph length). Not the official STE dictionary. The docs site passes at 99%+.
+- New docs page: a walkthrough with expandable steps.
+
 ## 0.4.0 — 2026-10-05
 - `study-planner` rewritten around a first-principles method: target → required capabilities → audit → gaps → minimum curriculum → resources → exercises → schedule → checkpoints. Optimizes time-to-capability, not coverage.
 - Capability audit with five classes (strong, rusty, partial, new, irrelevant) and progressive compression; ranked gaps; dependency graph with parallel tracks; source stacks; 60–80% active work; production-realism check; just-in-time depth; capability checkpoints; a pruning pass; a "Why this plan" section.

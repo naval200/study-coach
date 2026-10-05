@@ -63,7 +63,7 @@ claude</pre>
 <p class="claude">What backend work have you done before?</p>
 <p class="you">Node scripts. I use REST APIs all the time. Never owned a service or a production database. SQL in a course four years ago.</p>
 <p class="claude">How do you learn best?</p>
-<p class="you">Building, with enough theory to know what I am doing.</p>
+<p class="you">I build. I need enough theory to know what I do.</p>
 <p class="claude">What usually makes your plans fail?</p>
 <p class="you">In week 2 I find a new course. It always looks better than my plan.</p>
 </div>
@@ -72,7 +72,7 @@ claude</pre>
 <details>
 <summary>A quick test instead of a guess: is SQL new or rusty?</summary>
 <div class="chat">
-<p class="claude">"Four years ago" can mean new or rusty. Answer without looking anything up:</p>
+<p class="claude">"Four years ago" can mean new or rusty. Answer from memory:</p>
 <pre>SELECT users.name, SUM(orders.total)
 FROM users
 JOIN orders ON orders.user_id = users.id
@@ -85,7 +85,7 @@ GROUP BY users.name;</pre>
 
 <details>
 <summary>The audit: what to skip, refresh and learn</summary>
-<p>The planner puts each capability in a class. Strong things are skipped. Only real gaps get full modules.</p>
+<p>The planner puts each capability in a class. It skips strong things. Only real gaps get full modules.</p>
 <table>
 <tr><th>Capability</th><th>Class</th><th>Decision</th></tr>
 <tr><td>TypeScript, REST, Git, CI, debugging</td><td>A strong</td><td>Skip</td></tr>
@@ -96,15 +96,15 @@ GROUP BY users.name;</pre>
 </table>
 <div class="chat">
 <p class="you">Why no Kubernetes?</p>
-<p class="claude">Your goal is to own backend tickets, not to run a cluster. It does not close a gap for this goal. The same reason removes "intro to programming", "what is HTTP" and a full REST course. You already have those.</p>
-<p class="claude">You are experienced, so <strong>Experienced Learner Mode</strong> is on: test before teaching, refreshers instead of courses, fewer but realistic exercises. Do not relearn the field. Close the gap.</p>
+<p class="claude">Your goal is to own backend tickets, not to run a cluster. It does not close a gap for this goal. For the same reason, the plan has no programming basics, no "what is HTTP" and no full REST course. You already have those.</p>
+<p class="claude">You have experience, so I use <strong>Experienced Learner Mode</strong>. I test before I teach. I give refreshers, not courses. I give fewer exercises, but they are realistic. Do not relearn the field. Close the gap.</p>
 </div>
 </details>
 
 <details>
 <summary>The gaps, the resources and the four modules</summary>
 <p><strong>Ranked gaps:</strong> 1. own a Node/TypeScript service · 2. Postgres from code · 3. safe writes and transactions · 4. background jobs and retries · 5. backend tests and debugging · 6. deploy and config · 7. basic monitoring.</p>
-<p><strong>Resources are picked after the gaps</strong>, one small source for each need: PostgreSQL tutorial (ch. 2 and transactions), node-postgres docs: Pooling, Express docs: Basic routing, the Node.js test runner, BullMQ: Introduction and Quick Start, OpenTelemetry JavaScript: Getting Started.</p>
+<p><strong>The planner picks resources after it finds the gaps.</strong> It picks one small source for each need: PostgreSQL tutorial (ch. 2 and transactions), node-postgres docs: Pooling, Express docs: Basic routing, the Node.js test runner, BullMQ: Introduction and Quick Start, OpenTelemetry JavaScript: Getting Started.</p>
 <table>
 <tr><th>Module</th><th>Done when</th><th>Effort</th></tr>
 <tr><td>1. Own a Node API</td><td>Explain the request path; build and debug an endpoint without help</td><td>~7 h</td></tr>
@@ -131,7 +131,7 @@ GROUP BY users.name;</pre>
 <summary>"Can you do week 1 as written?"</summary>
 <div class="chat">
 <p class="you">Monday works. Tuesday is too full. I will not do 75 minutes on Tuesday.</p>
-<p class="claude">Then Tuesday is 35 minutes. I remove one reading and one exercise. I do not move them to another day. Week 1 still ends with the same deliverable. Can you do that?</p>
+<p class="claude">Then Tuesday is 35 minutes. I remove one chapter and one exercise. I do not move them to another day. Week 1 still ends with the same deliverable. Can you do that?</p>
 <p class="you">Yes.</p>
 <p class="claude">Approved. I will write the files now.</p>
 </div>
@@ -157,7 +157,7 @@ GROUP BY users.name;</pre>
 - **Done when:** explain the request path; the endpoint runs locally</pre>
 <p>From "Why this plan": <em>You already know TypeScript, HTTP, Git, CI and debugging. The plan spends time only on backend gaps that affect your tickets. Each week ends with something you build, test or ship.</em></p>
 </details>
-<p class="tip">The plan is ready when the calendar is small enough to believe. Nothing is written before you approve it.</p>
+<p class="tip">The plan is ready when the calendar is small enough to believe. The planner writes nothing before you approve the plan.</p>
 </section>
 
 <!-- 2. Start -->
@@ -192,7 +192,7 @@ DASHBOARD.md</pre>
 <div class="chat">
 <p class="you">I did the Build. I did about half of the Learn. 65 minutes.</p>
 <p class="claude">Before I tick "explain how a connection pool works", two quick questions. Why use a pool and not a new connection for each request?</p>
-<p class="you">Opening a connection is expensive. A pool lets requests reuse a fixed set of connections.</p>
+<p class="you">A new connection is expensive. A pool lets requests reuse a fixed set of connections.</p>
 <p class="claude">Good. What happens when all connections are busy and one more request needs one?</p>
 <p class="you">It waits until a connection is free.</p>
 <p class="claude">That is enough evidence. Ticked. <code>Day 2 of 28 · Pace: 🟢 On track</code></p>
@@ -228,7 +228,7 @@ This week: Postgres write path + transaction test
 Streak: 0 day(s) · Exit test: 0/7 (pass ≥ 5) · Reviews due: 1</pre>
 <div class="chat">
 <p class="you">What do we cut?</p>
-<p class="claude">Two missed days: the rule is a scope cut, not extra hours. I drop the query-tuning exercise, the second schema exercise and the optional OpenTelemetry reading. They do not move to another day. The week's deliverable stays. On a short day, use your 20-minute minimum day.</p>
+<p class="claude">Two missed days: the rule is a scope cut, not extra hours. I remove the query-speed exercise, the second schema exercise and the optional OpenTelemetry chapter. They do not move to another day. The week's deliverable stays. On a short day, use your 20-minute minimum day.</p>
 </div>
 </details>
 <p class="tip">"Behind" is a fact about the schedule. The plan gets smaller. The goal stays.</p>
@@ -244,12 +244,12 @@ Streak: 0 day(s) · Exit test: 0/7 (pass ≥ 5) · Reviews due: 1</pre>
 <div class="chat">
 <p class="claude">Does it help this week's deliverable?</p>
 <p class="you">Not the whole course. One 20-minute chapter on Express middleware looks useful.</p>
-<p class="claude">Then the course goes to the parking lot. The chapter can come in, but it must replace something: it takes the place of the current middleware reading.</p>
+<p class="claude">Then the course goes to the parking lot. The chapter can come in, but it must replace something: it replaces the current middleware chapter.</p>
 </div>
 <p><code>curriculum/changes.md</code> gets one row:</p>
 <pre>| Date       | Kind | Change                                  | Reason                  | Cost                               |
 |------------|------|-----------------------------------------|-------------------------|------------------------------------|
-| 2026-10-14 | swap | Masterclass middleware chapter (20 min) | same goal, better angle | current middleware reading (20 min)|</pre>
+| 2026-10-14 | swap | Masterclass middleware chapter (20 min) | same goal, better angle | current middleware chapter (20 min)|</pre>
 <p><code>ideas/parking-lot.md</code>:</p>
 <pre>| Item                              | Why parked                | Revisit |
 |-----------------------------------|---------------------------|---------|
@@ -275,7 +275,7 @@ Streak: 0 day(s) · Exit test: 0/7 (pass ≥ 5) · Reviews due: 1</pre>
 <p class="claude">That is a <strong>misconception</strong>: confident and wrong. Two real payments can have the same body. The server needs an idempotency key: a stable ID for the operation. We fix this first.</p>
 <p class="claude">Why can a retry of <code>POST /orders</code> make two orders?</p>
 <p class="you">POST creates a new resource each time, unless the app detects the duplicate.</p>
-<p class="claude">Solid. The process creates an order, then crashes before the email job is saved. What is the problem?</p>
+<p class="claude">Solid. The process creates an order. Then it stops before it saves the email job. What is the problem?</p>
 <p class="you">The order exists, but the job may not.</p>
 <p class="claude">Solid.</p>
 </div>
@@ -299,7 +299,7 @@ Reviews next week: idempotency, transactions
 What worked: short Build blocks survived the deadline.
 One change: keep Tuesday at 35 minutes.
 Next week: background jobs and retries.</pre>
-<p>It is saved as <code>reviews/week-2.md</code>.</p>
+<p>The coach saves it in <code>reviews/week-2.md</code>.</p>
 </details>
 <p class="tip">The review changes next week, not the whole plan.</p>
 </section>

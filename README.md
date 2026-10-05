@@ -46,6 +46,8 @@ It writes `curriculum/brief.md`, `gaps.md`, `exit-test.md` and `plan.md`. Then `
 /plugin install study-coach@study-coach
 ```
 
+This installs straight from this GitHub repo; it does not need the official plugin directory.
+
 **As a plain skill:** copy or symlink `skills/study-coach/` into `~/.claude/skills/` (all projects) or `<project>/.claude/skills/` (one project).
 
 Requires Node.js 18+ for the scripts (no npm dependencies). The plugin install also adds a SessionStart hook that prints a one-line summary inside study workspaces (silent elsewhere).

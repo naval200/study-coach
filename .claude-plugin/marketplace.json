@@ -8,7 +8,7 @@
     {
       "name": "study-coach",
       "source": "./",
-      "description": "Self-directed learning coach for following a curriculum: today view, logging, pace dashboard, concept checks."
+      "description": "Plan from your goal (study-planner), then follow the plan with a dashboard, concept checks and posts (study-coach)."
     }
   ]
 }

@@ -42,7 +42,7 @@ It writes `curriculum/brief.md`, `gaps.md`, `exit-test.md` and `plan.md`. Then `
 **As a plugin (recommended):**
 
 ```
-/plugin marketplace add navalsaini/study-coach
+/plugin marketplace add naval200/study-coach
 /plugin install study-coach@study-coach
 ```
 
@@ -69,6 +69,10 @@ Try it on the sample:
 ```bash
 node skills/study-coach/scripts/dashboard.mjs examples/sample-workspace --today 2026-01-06 --no-write
 ```
+
+## See it in use
+
+[Walkthrough](https://naval200.github.io/study-coach/walkthrough.html): one learner, four weeks, from no plan to a passed exit test. Each step shows the command; open it to read the conversation.
 
 ## How it works
 

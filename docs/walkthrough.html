@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Study Coach Walkthrough</title>
+<meta name="description" content="One learner, four weeks: from no plan to a passed exit test with study-planner and study-coach.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<nav><a href="index.html">Overview</a><a href="walkthrough.html" aria-current="page">Walkthrough</a><a href="planner.html">Make a plan</a><a href="workspace.html">Files</a><a href="modes.html">Commands</a><a href="check.html">Concept checks</a><a href="adapt.html">Plan changes</a><a href="share.html">Posts</a></nav>
+
+<h1>Walkthrough: four weeks with Maya</h1>
+<p class="lead">From "I have no plan" to "I passed my exit test". You see only the commands. Open any step to read the conversation.</p>
+
+<p>Maya is a frontend engineer with six years of experience. She knows React and TypeScript. She never owned a backend service. She has <strong>4 weeks</strong> and <strong>about 8 hours a week</strong>. Her goal: own normal backend tickets at her startup.</p>
+<p class="muted">This is an example story. The commands, files and rules are real.</p>
+
+<div class="toolbar"><button type="button" id="toggle-all">Open all steps</button></div>
+
+<!-- 0. Install -->
+<section class="step">
+<h2><span class="num">0</span>Install the skills</h2>
+<p>Do this once. It adds both skills: <code>study-planner</code> makes the plan, <code>study-coach</code> runs it.</p>
+<p class="label">In Claude Code</p>
+<pre class="cmd">/plugin marketplace add naval200/study-coach
+/plugin install study-coach@study-coach</pre>
+<details>
+<summary>Make a study folder and start Claude Code there</summary>
+<pre class="cmd">mkdir backend-study
+cd backend-study
+claude</pre>
+<p>All your plan and progress are markdown files in this folder. Claude does not remember between sessions. The files are the memory. Always start Claude Code in the same folder.</p>
+</details>
+<details>
+<summary>In the Claude app (claude.ai or desktop)</summary>
+<ol>
+<li>Download the repository from <a href="https://github.com/naval200/study-coach">github.com/naval200/study-coach</a>.</li>
+<li>Make a ZIP of each folder in <code>skills/</code>: <code>study-planner</code> and <code>study-coach</code>.</li>
+<li>Add each ZIP as a skill in Claude's settings (Skills).</li>
+<li>Turn on code execution. The dashboard is a small script.</li>
+</ol>
+<p>Claude Code is the easier choice. It keeps the files in a folder on your computer.</p>
+</details>
+</section>
+
+<!-- 1. Plan -->
+<section class="step">
+<h2><span class="num">1</span>Make the plan</h2>
+<p>Maya has no plan. She gives the planner her goal.</p>
+<pre class="cmd">/study-planner own backend tickets in 4 weeks</pre>
+
+<details>
+<summary>The questions: goal, date, time, what she knows</summary>
+<div class="chat">
+<p class="claude">What does "own backend tickets" mean at your startup? For example: build an endpoint, change a schema, add a background job, deploy.</p>
+<p class="you">Build, test and deploy a small Node/TypeScript API with Postgres, background jobs and basic monitoring.</p>
+<p class="claude">When do you need this?</p>
+<p class="you">November 1. Four weeks from now.</p>
+<p class="claude">How much time can you really keep each week?</p>
+<p class="you">About 8 hours. Weekdays 60–75 minutes. Saturday 2 hours.</p>
+<p class="claude">What backend work have you done before?</p>
+<p class="you">Node scripts. I use REST APIs all the time. Never owned a service or a production database. SQL in a course four years ago.</p>
+<p class="claude">How do you learn best?</p>
+<p class="you">Building, with enough theory to know what I am doing.</p>
+<p class="claude">What usually makes your plans fail?</p>
+<p class="you">In week 2 I find a new course. It always looks better than my plan.</p>
+</div>
+</details>
+
+<details>
+<summary>A quick test instead of a guess: is SQL new or rusty?</summary>
+<div class="chat">
+<p class="claude">"Four years ago" can mean new or rusty. Answer without looking anything up:</p>
+<pre>SELECT users.name, SUM(orders.total)
+FROM users
+JOIN orders ON orders.user_id = users.id
+GROUP BY users.name;</pre>
+<p class="claude">What does the <code>JOIN</code> do, and why <code>GROUP BY</code>?</p>
+<p class="you">The join connects orders to users by <code>user_id</code>. <code>GROUP BY</code> makes one sum per user. I think it also includes users with no orders.</p>
+<p class="claude">The first part is solid. The last part is not: this is an inner join, so users with no orders are left out. SQL is <strong>B, rusty</strong>. You need a recap, not a SQL course.</p>
+</div>
+</details>
+
+<details>
+<summary>The audit: what to skip, refresh and learn</summary>
+<p>The planner puts each capability in a class. Strong things are skipped. Only real gaps get full modules.</p>
+<table>
+<tr><th>Capability</th><th>Class</th><th>Decision</th></tr>
+<tr><td>TypeScript, REST, Git, CI, debugging</td><td>A strong</td><td>Skip</td></tr>
+<tr><td>SQL</td><td>B rusty</td><td>Recap + 4 exercises</td></tr>
+<tr><td>Node service structure, testing, deploy, monitoring</td><td>C partial</td><td>Teach the missing parts</td></tr>
+<tr><td>Postgres in an app, background jobs</td><td>D new</td><td>Full module</td></tr>
+<tr><td>Kubernetes</td><td>E not needed</td><td>Skip</td></tr>
+</table>
+<div class="chat">
+<p class="you">Why no Kubernetes?</p>
+<p class="claude">Your goal is to own backend tickets, not to run a cluster. It does not close a gap for this goal. The same reason removes "intro to programming", "what is HTTP" and a full REST course. You already have those.</p>
+<p class="claude">You are experienced, so <strong>Experienced Learner Mode</strong> is on: test before teaching, refreshers instead of courses, fewer but realistic exercises. Do not relearn the field. Close the gap.</p>
+</div>
+</details>
+
+<details>
+<summary>The gaps, the resources and the four modules</summary>
+<p><strong>Ranked gaps:</strong> 1. own a Node/TypeScript service · 2. Postgres from code · 3. safe writes and transactions · 4. background jobs and retries · 5. backend tests and debugging · 6. deploy and config · 7. basic monitoring.</p>
+<p><strong>Resources are picked after the gaps</strong>, one small source for each need: PostgreSQL tutorial (ch. 2 and transactions), node-postgres docs: Pooling, Express docs: Basic routing, the Node.js test runner, BullMQ: Introduction and Quick Start, OpenTelemetry JavaScript: Getting Started.</p>
+<table>
+<tr><th>Module</th><th>Done when</th><th>Effort</th></tr>
+<tr><td>1. Own a Node API</td><td>Explain the request path; build and debug an endpoint without help</td><td>~7 h</td></tr>
+<tr><td>2. Postgres from TypeScript</td><td>Build a database-backed ticket; explain the transaction boundaries</td><td>~8 h</td></tr>
+<tr><td>3. Background work</td><td>Explain what happens when a worker dies halfway through a job</td><td>~6 h</td></tr>
+<tr><td>4. Ship and operate</td><td>Find a failure from symptom to code to data</td><td>~6 h</td></tr>
+</table>
+</details>
+
+<details>
+<summary>Rules that keep the plan alive</summary>
+<div class="chat">
+<p class="claude">Your plans fail when a new course appears in week 2. So: <strong>a new course goes to <code>ideas/parking-lot.md</code></strong>. If it looks important, run <code>/study-coach adapt</code> and compare it with the goal first.</p>
+</div>
+<ul>
+<li>Never shift the calendar. A missed Build moves to the light day (Sunday).</li>
+<li>Time boxes are hard.</li>
+<li>A 20-minute <strong>minimum day</strong> still counts.</li>
+<li>Two missed days in a row: cut scope. Do not add hours.</li>
+</ul>
+</details>
+
+<details>
+<summary>"Can you do week 1 as written?"</summary>
+<div class="chat">
+<p class="you">Monday works. Tuesday is too full. I will not do 75 minutes on Tuesday.</p>
+<p class="claude">Then Tuesday is 35 minutes. I remove one reading and one exercise. I do not move them to another day. Week 1 still ends with the same deliverable. Can you do that?</p>
+<p class="you">Yes.</p>
+<p class="claude">Approved. I will write the files now.</p>
+</div>
+</details>
+
+<details>
+<summary>The files it writes</summary>
+<pre>curriculum/
+  brief.md       goal, what she knows, time, rules, minimum day
+  gaps.md        classes, ranked gaps, what was skipped
+  exit-test.md   7 capability checks, pass mark 5
+  plan.md        modules, days, "Why this plan"</pre>
+<p>Part of <code>gaps.md</code>:</p>
+<pre>| Capability        | Class | Treatment          |
+|-------------------|-------|--------------------|
+| SQL               | B     | refresh            |
+| Background jobs   | D     | full module        |
+| Kubernetes        | E     | skip: not needed   |</pre>
+<p>Day 1 in <code>plan.md</code>:</p>
+<pre>### Day 1 · Mon 5 Oct — Service shape
+- **Learn:** Express docs: Basic routing
+- **Build:** a TypeScript API with one GET /health endpoint
+- **Done when:** explain the request path; the endpoint runs locally</pre>
+<p>From "Why this plan": <em>You already know TypeScript, HTTP, Git, CI and debugging. The plan spends time only on backend gaps that affect your tickets. Each week ends with something you build, test or ship.</em></p>
+</details>
+<p class="tip">The plan is ready when the calendar is small enough to believe. Nothing is written before you approve it.</p>
+</section>
+
+<!-- 2. Start -->
+<section class="step">
+<h2><span class="num">2</span>Start the plan</h2>
+<p>The coach turns the plan into day files and a dashboard.</p>
+<pre class="cmd">/study-coach init curriculum/plan.md</pre>
+<details>
+<summary>What the coach writes and says</summary>
+<pre>STUDY.md
+days/day01.md … days/day28.md
+DASHBOARD.md</pre>
+<div class="chat">
+<p class="claude">Today is Day 1.</p>
+<pre>07:00  45 min  Learn: Express docs, Basic routing
+07:45  30 min  Build: GET /health
+08:15  15 min  Explain: request → handler → response</pre>
+<p class="claude">First action: create the API skeleton and the <code>GET /health</code> endpoint.</p>
+</div>
+</details>
+<p>Each morning after that, Maya types one command:</p>
+<pre class="cmd">/study-coach today</pre>
+</section>
+
+<!-- 3. Log -->
+<section class="step">
+<h2><span class="num">3</span>Log a normal day</h2>
+<p>At the end of Day 2, Maya tells the coach what she did.</p>
+<pre class="cmd">/study-coach log</pre>
+<details>
+<summary>The conversation: no tick without evidence</summary>
+<div class="chat">
+<p class="you">I did the Build. I did about half of the Learn. 65 minutes.</p>
+<p class="claude">Before I tick "explain how a connection pool works", two quick questions. Why use a pool and not a new connection for each request?</p>
+<p class="you">Opening a connection is expensive. A pool lets requests reuse a fixed set of connections.</p>
+<p class="claude">Good. What happens when all connections are busy and one more request needs one?</p>
+<p class="you">It waits until a connection is free.</p>
+<p class="claude">That is enough evidence. Ticked. <code>Day 2 of 28 · Pace: 🟢 On track</code></p>
+</div>
+</details>
+<details>
+<summary>The day file after the log</summary>
+<pre>## Plan
+- [x] **Learn:** node-postgres docs: Pooling
+- [x] **Build:** a database-backed GET endpoint with a pool
+- [-] **Learn:** PostgreSQL tutorial 2.6 (dropped: time box ended)
+
+## Done when
+- [x] explain how a connection pool works
+
+## Log
+- **Done:** pool + GET /orders/:id, 65 min
+- **Blocked:** none
+- **Tomorrow's first task:** add one write path and a test for it</pre>
+</details>
+<p class="tip">Logging is evidence, not a diary. "I get it" is not proof, so the coach asks.</p>
+</section>
+
+<!-- 4. Bad week -->
+<section class="step">
+<h2><span class="num">4</span>A bad week</h2>
+<p>A work deadline. Maya misses Day 8 and Day 9. On Day 10 she asks where she stands.</p>
+<pre class="cmd">/study-coach status</pre>
+<details>
+<summary>What the coach shows, and the scope cut</summary>
+<pre>Day 10 of 28 · Pace: 🔴 Behind — 4 item(s) owed across 2 day(s)
+This week: Postgres write path + transaction test
+Streak: 0 day(s) · Exit test: 0/7 (pass ≥ 5) · Reviews due: 1</pre>
+<div class="chat">
+<p class="you">What do we cut?</p>
+<p class="claude">Two missed days: the rule is a scope cut, not extra hours. I drop the query-tuning exercise, the second schema exercise and the optional OpenTelemetry reading. They do not move to another day. The week's deliverable stays. On a short day, use your 20-minute minimum day.</p>
+</div>
+</details>
+<p class="tip">"Behind" is a fact about the schedule. The plan gets smaller. The goal stays.</p>
+</section>
+
+<!-- 5. Adapt -->
+<section class="step">
+<h2><span class="num">5</span>A shiny new course</h2>
+<p>Maya finds a 40-hour "Node.js Microservices Masterclass". It looks great.</p>
+<pre class="cmd">/study-coach adapt I found a 40-hour Node.js microservices course</pre>
+<details>
+<summary>How the coach routes it</summary>
+<div class="chat">
+<p class="claude">Does it help this week's deliverable?</p>
+<p class="you">Not the whole course. One 20-minute chapter on Express middleware looks useful.</p>
+<p class="claude">Then the course goes to the parking lot. The chapter can come in, but it must replace something: it takes the place of the current middleware reading.</p>
+</div>
+<p><code>curriculum/changes.md</code> gets one row:</p>
+<pre>| Date       | Kind | Change                                  | Reason                  | Cost                               |
+|------------|------|-----------------------------------------|-------------------------|------------------------------------|
+| 2026-10-14 | swap | Masterclass middleware chapter (20 min) | same goal, better angle | current middleware reading (20 min)|</pre>
+<p><code>ideas/parking-lot.md</code>:</p>
+<pre>| Item                              | Why parked                | Revisit |
+|-----------------------------------|---------------------------|---------|
+| Node.js Microservices Masterclass | 40 h; not needed for goal | Day 28  |</pre>
+</details>
+<p class="tip">You can change the material. You cannot quietly grow the plan. Every addition names what comes out.</p>
+</section>
+
+<!-- 6. Check -->
+<section class="step">
+<h2><span class="num">6</span>Check a concept</h2>
+<p>Maya reaches idempotency: an operation that is safe to run twice.</p>
+<pre class="cmd">/study-coach check idempotency</pre>
+<details>
+<summary>The questions, and a confident wrong answer</summary>
+<div class="chat">
+<p class="claude">What depth do you need: aware, explain, apply or teach?</p>
+<p class="you">Apply.</p>
+<p class="claude">A payment request times out after the server may have charged the card. The client retries. How does the server know it is the same operation?</p>
+<p class="you">The request body. Same body, same payment.</p>
+<p class="claude">Sure or unsure?</p>
+<p class="you">Sure.</p>
+<p class="claude">That is a <strong>misconception</strong>: confident and wrong. Two real payments can have the same body. The server needs an idempotency key: a stable ID for the operation. We fix this first.</p>
+<p class="claude">Why can a retry of <code>POST /orders</code> make two orders?</p>
+<p class="you">POST creates a new resource each time, unless the app detects the duplicate.</p>
+<p class="claude">Solid. The process creates an order, then crashes before the email job is saved. What is the problem?</p>
+<p class="you">The order exists, but the job may not.</p>
+<p class="claude">Solid.</p>
+</div>
+<pre>idempotency · target: apply · 2 solid · 1 misconception (fixed)
+Next review: 2026-10-17  (ladder: 1 / 3 / 7 / 16 / 35 days)</pre>
+</details>
+<p class="tip">The check finds the wrong mental model before it reaches production.</p>
+</section>
+
+<!-- 7. Review -->
+<section class="step">
+<h2><span class="num">7</span>Weekly review</h2>
+<p>Sunday, end of week 2.</p>
+<pre class="cmd">/study-coach review</pre>
+<details>
+<summary>The week 2 scorecard</summary>
+<pre>Hours: 5.7 of 8 · Days logged: 5/7 · Deliverable: shipped
+Checks: 2 solid, 1 misconception fixed
+Reviews next week: idempotency, transactions
+
+What worked: short Build blocks survived the deadline.
+One change: keep Tuesday at 35 minutes.
+Next week: background jobs and retries.</pre>
+<p>It is saved as <code>reviews/week-2.md</code>.</p>
+</details>
+<p class="tip">The review changes next week, not the whole plan.</p>
+</section>
+
+<!-- 8. Exit test -->
+<section class="step">
+<h2><span class="num">8</span>Day 28: the exit test</h2>
+<p>There is no special command. Maya asks the coach in plain words.</p>
+<pre class="cmd">Run my exit test.</pre>
+<details>
+<summary>The seven checks, one at a time</summary>
+<p>The coach reads <code>curriculum/exit-test.md</code>. For "built" checks it asks for evidence. For "explain" checks it asks questions with no hints.</p>
+<table>
+<tr><th>#</th><th>Check</th><th>Evidence</th><th>Result</th></tr>
+<tr><td>1</td><td>Built: a Node/TypeScript API</td><td>Repo link</td><td>✓</td></tr>
+<tr><td>2</td><td>Built: a Postgres-backed feature</td><td>Orders module + transaction test</td><td>✓</td></tr>
+<tr><td>3</td><td>Built: a background job with retries</td><td>Email worker in the repo</td><td>✓</td></tr>
+<tr><td>4</td><td>Explain: connection pooling</td><td>Answer from memory: solid</td><td>✓</td></tr>
+<tr><td>5</td><td>Explain: idempotency</td><td>Answer from memory: solid</td><td>✓</td></tr>
+<tr><td>6</td><td>Design: save an order and never lose its job</td><td>"Put the queue call in the transaction": fragile</td><td>✗</td></tr>
+<tr><td>7</td><td>Debug: symptom to root cause</td><td>Notes only, no test or repo</td><td>✗</td></tr>
+</table>
+<div class="chat">
+<p class="claude">On check 6: you found the failure point, but a queue call inside a database transaction does not make both happen together. This check does not pass.</p>
+</div>
+</details>
+<details>
+<summary>The result, and what comes next</summary>
+<pre>Exit test: 5/7 (pass ≥ 5) · PASSED
+
+Open gaps:
+1. Design: keep database state and background jobs in step
+2. Debug: evidence from a real failure</pre>
+<div class="chat">
+<p class="claude">You passed. The two open gaps are the start of your next plan. Run <code>/study-planner</code> again and begin from them.</p>
+</div>
+</details>
+<p class="tip">The exit test measures what you can do, not how much of the calendar you finished.</p>
+</section>
+
+<!-- Summary -->
+<section class="step">
+<h2><span class="num">✓</span>All the commands Maya used</h2>
+<pre class="cmd">/study-planner &lt;goal&gt;
+/study-coach init curriculum/plan.md
+/study-coach today
+/study-coach log
+/study-coach status
+/study-coach adapt &lt;change&gt;
+/study-coach check &lt;concept&gt;
+/study-coach review</pre>
+<details>
+<summary>The habits that made it work</summary>
+<ul>
+<li>Start from a capability ("own backend tickets"), not a subject ("learn backend").</li>
+<li>Test what you know before you study it.</li>
+<li>Learn only the gaps that matter for the goal.</li>
+<li>Build something real every week.</li>
+<li>Keep a minimum day, so a bad day does not break a week.</li>
+<li>New courses go to the parking lot, unless they replace something.</li>
+<li>Two missed days: cut scope, do not add hours.</li>
+<li>End with an exit test that needs evidence.</li>
+</ul>
+</details>
+<p>The result is not "I finished a backend course". It is: <strong>I can own a small backend ticket, and I know what I still cannot do.</strong></p>
+</section>
+
+<p class="next">Next: <a href="planner.html">How the planner works →</a></p>
+
+</main>
+<script>
+(function () {
+  var btn = document.getElementById("toggle-all");
+  var all = document.querySelectorAll("details");
+  function sync() {
+    var open = Array.prototype.every.call(all, function (d) { return d.open; });
+    btn.textContent = open ? "Close all steps" : "Open all steps";
+  }
+  btn.addEventListener("click", function () {
+    var open = !Array.prototype.every.call(all, function (d) { return d.open; });
+    all.forEach(function (d) { d.open = open; });
+    sync();
+  });
+  all.forEach(function (d) { d.addEventListener("toggle", sync); });
+})();
+</script>
+</body>
+</html>

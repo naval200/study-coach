@@ -34,7 +34,7 @@ Use this mode when the learner wants an online progress page, or when `sync.mjs`
    - Verify the email address. The free plan is enough.
    - Tell me the username when you finish.
 4. **Sign in.** Tell the learner to type `! gh auth login` in Claude Code, or to run `gh auth login` in a terminal. Tell them which choices to pick: GitHub.com, HTTPS, "Login with a web browser". Then run `gh auth setup-git` and `gh auth status` to confirm the sign-in.
-5. **Make the folder a repo.** If `git rev-parse --is-inside-work-tree` fails, run `git init -b main`. Add or extend `.gitignore` with `private.md`, `.env*`, `.DS_Store` and `.claude/skills/`.
+5. **Make the folder a repo.** If `git rev-parse --is-inside-work-tree` fails, run `git init -b main`. If `origin` points to a repo that the learner does not own (for example, they cloned a template), rename it with `git remote rename origin upstream` before step 7. Add or extend `.gitignore` with `private.md`, `.env*`, `.DS_Store` and `.claude/skills/`.
 6. **Progress page.** If `index.html` does not exist, copy `templates/progress-page.html` to `index.html`. Set `progress_js: progress.js` in `STUDY.md`. Run the dashboard so that `progress.js` exists.
 7. **Create the repo.** Suggest a name (for example `study` or the curriculum slug). Get a yes for public or private. Then run:
    `gh repo create <name> --public --source . --remote origin` (or `--private`).

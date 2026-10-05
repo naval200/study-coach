@@ -2,6 +2,8 @@
 
 A Claude Code skill that coaches you through a self-directed curriculum. Give it any study plan; it builds a plain-markdown workspace, tells you what to do today, tracks whether you're ahead or behind, quizzes you until you actually know the material, lets the plan change without falling apart, and turns your progress into posts.
 
+**Guide:** [naval200.github.io/study-coach](https://naval200.github.io/study-coach/) — short pages that explain each part of the skill (source in [`docs/`](docs/)).
+
 ```
 /study-coach                  what do I do today?
 /study-coach status           how am I progressing?

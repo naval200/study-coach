@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Study Coach Commands</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<nav><a href="index.html">Overview</a><a href="workspace.html">Files</a><a href="modes.html" aria-current="page">Commands</a><a href="check.html">Concept checks</a><a href="adapt.html">Plan changes</a><a href="share.html">Posts</a></nav>
+
+<h1>Commands</h1>
+<p class="lead">Type <code>/study-coach</code> and a command. You can also ask in normal words.</p>
+
+<table>
+<tr><th>Command</th><th>Use it when</th></tr>
+<tr><td><code>today</code></td><td>You want to know what to do now</td></tr>
+<tr><td><code>log</code></td><td>You finish a block or a day</td></tr>
+<tr><td><code>status</code></td><td>You want to know your progress</td></tr>
+<tr><td><code>check &lt;concept&gt;</code></td><td>You want to test what you know</td></tr>
+<tr><td><code>adapt &lt;change&gt;</code></td><td>You want to change the plan</td></tr>
+<tr><td><code>share</code></td><td>You want to write a post</td></tr>
+<tr><td><code>capture &lt;item&gt;</code></td><td>You want to save an idea, article, or book</td></tr>
+<tr><td><code>review</code></td><td>The week ends (usually Sunday)</td></tr>
+<tr><td><code>init &lt;file&gt;</code></td><td>You start a new plan</td></tr>
+</table>
+<p>If you give no command, the coach uses <code>today</code>.</p>
+
+<h2>today</h2>
+<ol>
+<li>If reviews are due, the coach offers a 5–10 minute review first.</li>
+<li>It shows the tasks for today, with times. The list fits on one screen.</li>
+<li>It tells you where owed items go. It does not add them to today, unless today is the catch-up day.</li>
+<li>If today has a Post item, it suggests a topic.</li>
+<li>It ends with one action to do now.</li>
+</ol>
+
+<h2>log</h2>
+<ol>
+<li>Tell the coach what you did and how many hours.</li>
+<li>The coach ticks only the items that you confirm.</li>
+<li>It writes the Done, Blocked, and Tomorrow lines.</li>
+<li>If an item says "explain" or "from memory", the coach asks a quick question first.</li>
+<li>It updates course and book progress. Then it tells you your pace.</li>
+</ol>
+
+<h2>status</h2>
+<p>The coach gives 8 lines or less. Then it gives one recommendation:</p>
+<ul>
+<li><b>Ahead:</b> it names the win. It suggests more depth, not future work.</li>
+<li><b>Behind:</b> it gives the numbers. It suggests a scope cut that keeps the deliverable for this week.</li>
+<li><b>On track:</b> one line, and the next step.</li>
+</ul>
+
+<h2>capture</h2>
+<ul>
+<li><b>idea:</b> The coach adds one line to <code>ideas/inbox.md</code>.</li>
+<li><b>article:</b> The coach makes a notes file. Then it asks 2–3 questions about the article.</li>
+<li><b>book:</b> The coach makes or updates the book file and ticks chapters.</li>
+</ul>
+
+<h2>review</h2>
+<ol>
+<li>The coach writes <code>reviews/week-N.md</code>: numbers, what worked, what did not, one change.</li>
+<li>It decides on waiting proposals and sorts the idea inbox.</li>
+<li>It clears the catch-up list.</li>
+<li>It runs the due concept reviews.</li>
+<li>It offers to write a weekly post.</li>
+</ol>
+
+<h2>init</h2>
+<ol>
+<li>The coach saves your plan as <code>curriculum/plan.md</code>.</li>
+<li>It asks for the start date, hours, goal, and other settings.</li>
+<li>It writes <code>STUDY.md</code>.</li>
+<li>It makes one day file for each day, and all other files.</li>
+<li>It shows the <code>today</code> view.</li>
+</ol>
+
+<p class="next">Next: <a href="check.html">Concept checks →</a></p>
+
+</main>
+</body>
+</html>

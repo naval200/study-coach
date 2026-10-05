@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Study Coach Concept Checks</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<nav><a href="index.html">Overview</a><a href="workspace.html">Files</a><a href="modes.html">Commands</a><a href="check.html" aria-current="page">Concept checks</a><a href="adapt.html">Plan changes</a><a href="share.html">Posts</a></nav>
+
+<h1>Concept checks</h1>
+<p class="lead">The coach asks questions to find what you really know.</p>
+
+<h2>Four depth levels</h2>
+<table>
+<tr><th>Level</th><th>You can…</th></tr>
+<tr><td>1 aware</td><td>Say what it is</td></tr>
+<tr><td>2 explain</td><td>Explain it without notes</td></tr>
+<tr><td>3 apply</td><td>Use it, build with it, or fix it</td></tr>
+<tr><td>4 teach</td><td>Handle edge cases and trade-offs</td></tr>
+</table>
+<p>Your level is the highest level that you did <b>without help</b>. Reading, watching, or "that makes sense" is not proof.</p>
+
+<h2>How a check works</h2>
+<ol>
+<li>You and the coach agree on a target level.</li>
+<li>The coach asks 3–5 questions, one at a time.</li>
+<li>The coach gives no hints.</li>
+<li>Before it shows the answer, it asks: "sure or unsure?"</li>
+<li>It grades your answer.</li>
+<li>It stops when you reach the target, or when you miss two questions in a row.</li>
+</ol>
+
+<h2>Grades</h2>
+<table>
+<tr><th></th><th>Sure</th><th>Unsure</th></tr>
+<tr><th>Correct</th><td><b>solid</b></td><td><b>fragile</b></td></tr>
+<tr><th>Wrong</th><td><b>misconception</b></td><td><b>gap</b></td></tr>
+</table>
+<p>A partly correct answer counts as wrong. A skipped question counts as a gap.</p>
+<p>The final grade is the worst grade at the target level.</p>
+
+<h2>Review schedule</h2>
+<p>A script sets the date of the next review. It uses these steps (in days):</p>
+<pre>1 → 3 → 7 → 16 → 35</pre>
+<ul>
+<li><b>solid:</b> move up one step.</li>
+<li><b>fragile:</b> stay on the same step.</li>
+<li><b>misconception</b> or <b>gap:</b> go back to step 1.</li>
+</ul>
+<p>After the last step, the concept is "consolidated".</p>
+
+<h2>Due reviews</h2>
+<p>The dashboard shows concepts that are due. The coach offers them as a warm-up before your first block. It asks 1–2 questions for each concept. It does a maximum of 5 concepts.</p>
+
+<h2>Errors that occur again</h2>
+<p>The coach records errors in <code>concepts/_misses.md</code>. If you make the same error again, it adds one to the count. There are two types:</p>
+<ul>
+<li><b>confusion:</b> you mix up A and B. The coach asks "A or B?" questions.</li>
+<li><b>trap:</b> you make the same wrong step. The coach makes a new case with the same trap.</li>
+</ul>
+
+<h2>Are you ready?</h2>
+<p>Before a test or interview, the coach puts concepts in three groups:</p>
+<ul>
+<li><b>Reliable:</b> solid at the target, checked recently.</li>
+<li><b>Fragile:</b> fragile, or solid only one time.</li>
+<li><b>Untested:</b> never checked. This does not mean "probably good".</li>
+</ul>
+
+<p class="next">Next: <a href="adapt.html">Plan changes →</a></p>
+
+</main>
+</body>
+</html>

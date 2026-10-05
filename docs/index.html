@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Study Coach Overview</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<nav><a href="index.html" aria-current="page">Overview</a><a href="workspace.html">Files</a><a href="modes.html">Commands</a><a href="check.html">Concept checks</a><a href="adapt.html">Plan changes</a><a href="share.html">Posts</a></nav>
+
+<h1>Study Coach</h1>
+<p class="lead">A coach that helps you follow your own study plan.</p>
+
+<h2>What it is</h2>
+<p>Study Coach is a skill for Claude. It reads a folder of markdown files. These files hold your study plan, your daily logs, and your notes.</p>
+<p>The coach does not teach new material. It keeps you on your plan. It tells you where you are. It tests what you know. It helps you write posts about your progress.</p>
+
+<h2>What it does</h2>
+<table>
+<tr><th>Task</th><th>Result</th></tr>
+<tr><td>Tell you what to do today</td><td>A short list of tasks for the day</td></tr>
+<tr><td>Record your work</td><td>Ticks and notes in your day file</td></tr>
+<tr><td>Show your progress</td><td>Numbers: day, pace, streak, reviews due</td></tr>
+<tr><td>Test a concept</td><td>A grade and a date for the next review</td></tr>
+<tr><td>Change the plan</td><td>A logged change that does not break the plan</td></tr>
+<tr><td>Make posts</td><td>A blog draft and short posts for each platform</td></tr>
+</table>
+
+<h2>Rules the coach follows</h2>
+<ul>
+<li>Keep answers short.</li>
+<li>Use real numbers. Do not invent progress.</li>
+<li>If you are behind, say so. Then apply the rule. Do not blame.</li>
+<li>Do not accept "I get it" as proof. Ask a question.</li>
+<li>Do not stop a time block for a new idea.</li>
+<li>Your rules in <code>STUDY.md</code> are more important than the coach defaults.</li>
+</ul>
+
+<h2>How to start</h2>
+<ol>
+<li>Write your study plan in a markdown file.</li>
+<li>Tell Claude: <code>/study-coach init plan.md</code>.</li>
+<li>Answer the setup questions (start date, hours, goal).</li>
+<li>Each day, tell Claude: <code>/study-coach today</code>.</li>
+</ol>
+
+<p class="next">Next: <a href="workspace.html">The files in your study folder →</a></p>
+
+</main>
+</body>
+</html>

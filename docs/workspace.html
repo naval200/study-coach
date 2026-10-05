@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Study Coach Files</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<nav><a href="index.html">Overview</a><a href="workspace.html" aria-current="page">Files</a><a href="modes.html">Commands</a><a href="check.html">Concept checks</a><a href="adapt.html">Plan changes</a><a href="share.html">Posts</a></nav>
+
+<h1>Your study folder</h1>
+<p class="lead">All data is in plain markdown files. You can read and edit them.</p>
+
+<h2>How the coach finds the folder</h2>
+<p>The coach looks for a file named <code>STUDY.md</code>. It looks in this order:</p>
+<ol>
+<li>The current folder.</li>
+<li>The <code>study/</code> folder.</li>
+<li>Each parent folder.</li>
+</ol>
+<p>If it does not find the file, it offers to make a new folder with <code>init</code>.</p>
+
+<h2>The files</h2>
+<table>
+<tr><th>Path</th><th>Contents</th></tr>
+<tr><td><code>STUDY.md</code></td><td>Settings, goal, learner profile, daily schedule, rules</td></tr>
+<tr><td><code>DASHBOARD.md</code></td><td>Progress numbers. A script makes this file. Do not edit it.</td></tr>
+<tr><td><code>curriculum/plan.md</code></td><td>The full plan. This is the main source.</td></tr>
+<tr><td><code>curriculum/changes.md</code></td><td>A log of all changes to the plan</td></tr>
+<tr><td><code>curriculum/proposals.md</code></td><td>Possible changes that wait for a decision</td></tr>
+<tr><td><code>days/dayNN.md</code></td><td>One file for each day: tasks, done criteria, log</td></tr>
+<tr><td><code>courses/</code>, <code>books/</code></td><td>Progress for each course and book</td></tr>
+<tr><td><code>articles/</code></td><td>Notes and questions for each article or paper</td></tr>
+<tr><td><code>concepts/</code></td><td>One file for each concept: depth, evidence, next review</td></tr>
+<tr><td><code>ideas/</code></td><td>New ideas (inbox) and ideas for later (parking lot)</td></tr>
+<tr><td><code>projects/</code></td><td>Your code and work</td></tr>
+<tr><td><code>posts/</code></td><td>Blog drafts, short posts, and a list of published posts</td></tr>
+<tr><td><code>reviews/</code></td><td>One review for each week</td></tr>
+</table>
+
+<h2>A day file</h2>
+<p>Each day file has four parts:</p>
+<pre>## Plan
+- [ ] **Learn:** ...
+- [ ] **Build:** ...
+- [ ] **Post:** ...
+
+## Done when
+- [ ] A result that you can see or measure
+
+## Log
+- **Done:**
+- **Blocked:**
+- **Tomorrow&#39;s first task:**
+
+## Notes</pre>
+<p>Use these marks in the boxes:</p>
+<ul>
+<li><code>[ ]</code> = not done</li>
+<li><code>[x]</code> = done</li>
+<li><code>[-]</code> = dropped (write the reason in Notes)</li>
+</ul>
+<p>Items with <code>(stretch)</code> or <code>(if behind)</code> are optional. They do not count as owed work.</p>
+
+<h2>The dashboard</h2>
+<p>A script reads all the files and writes <code>DASHBOARD.md</code>. The coach runs this script first, each time. It shows:</p>
+<ul>
+<li>Day N of M, and your pace</li>
+<li>Items that you owe</li>
+<li>Your streak and missed days</li>
+<li>Concepts that are due for review</li>
+<li>Errors that occur again and again</li>
+<li>Plan changes and posts</li>
+</ul>
+<div class="note">The coach uses the numbers from the script. It does not count by hand.</div>
+
+<p class="next">Next: <a href="modes.html">The commands →</a></p>
+
+</main>
+</body>
+</html>

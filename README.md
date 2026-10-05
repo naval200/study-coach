@@ -16,6 +16,23 @@ A Claude Code skill that coaches you through a self-directed curriculum. Give it
 /study-coach init plan.md     turn a curriculum into a workspace
 ```
 
+## No plan yet? Start with study-planner
+
+```
+/study-planner become an LLM engineer in 90 days
+```
+
+A second skill in this plugin. It talks you through:
+
+1. **The end objective:** one outcome someone else could see, with a date.
+2. **An exit test:** 5–10 checks that prove you got there, written before any topic.
+3. **Your starting point:** what you know, what you own, and the hours you really kept up last time.
+4. **Foundations:** for each check, "what must I already be able to do?", down to what you know. Skills under several checks go first, learned by building. Topics no check needs are skipped.
+5. **Shape and pace:** weeks that each end in a deliverable, days with Learn / Build / Done when, and Relaxed / Steady / Faster shown as finish dates.
+6. **Making it stick:** a 20-minute minimum day, hard time boxes, a scope-cut rule, a parking lot for new courses, and a pre-mortem turned into if-then rules.
+
+Then `/study-coach init curriculum/plan.md` runs it.
+
 ## Install
 
 **As a plugin (recommended):**

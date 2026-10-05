@@ -73,8 +73,9 @@ const present = [...new Set(PATHS)].filter((p) => fs.existsSync(path.join(root, 
 const BLOCKED = (f) => /(^|\/)private\.md$/i.test(f) || /(^|\/)\.env(\.|$)/.test(f);
 
 // Find what would change, without touching the index yet.
-const changed = git(["status", "--porcelain", "--untracked-files=all", "--", ...present])
-  .split("\n").filter(Boolean).map((l) => l.slice(3).replace(/^.* -> /, ""));
+// -z: no quoting, no trimmed leading status column. Renames add a second NUL-separated path.
+const changed = execFileSync("git", ["status", "--porcelain", "-z", "--untracked-files=all", "--", ...present], { cwd: root, encoding: "utf8" })
+  .split("\0").filter(Boolean).filter((l) => /^[ MADRCU?!]{2} /.test(l)).map((l) => l.slice(3));
 const blocked = changed.filter(BLOCKED);
 if (blocked.length) fail(`refusing to save private files: ${blocked.join(", ")}. Add them to .gitignore first.`);
 

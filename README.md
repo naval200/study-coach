@@ -29,6 +29,19 @@ A Claude Code skill that coaches you through a self-directed curriculum. Give it
 
 Requires Node.js 18+ for the scripts (no npm dependencies). The plugin install also adds a SessionStart hook that prints a one-line summary inside study workspaces (silent elsewhere).
 
+## Agents
+
+Subagents in `agents/` that you can run on their own or call from your own harness. Each reads the skill and works from real dashboard numbers.
+
+| Agent | Does |
+|---|---|
+| `planner` | Goal → `plan.md`, daily tasks with "done when" tests, exit test, scope-cut rule |
+| `examiner` | Quizzes one concept to a depth, grades correctness × confidence, schedules reviews |
+| `reviewer` | Weekly review: pace, misses, proposed cuts and swaps |
+| `publisher` | Drafts the blog and platform posts from your logs; never posts for you |
+
+Plugin installs load them automatically. For a plain skill install, copy `agents/` to `.claude/agents/`.
+
 ## The workspace
 
 Everything is markdown you own and can commit:

@@ -95,7 +95,9 @@ if (changed.length) {
   git(["add", "-A", "--", ...present]);
   try {
     // Commit only the workspace paths, so other staged work stays staged.
-    git(["commit", "--quiet", "-m", msg, "--", ...present]);
+    // Skip paths git does not know (e.g. an empty reviews/), or the pathspec fails.
+    const known = present.filter((p) => git(["ls-files", "--", p]) !== "");
+    git(["commit", "--quiet", "-m", msg, "--", ...known]);
   } catch (e) {
     const err = String(e.stderr || e.message);
     if (/user\.(name|email)|Please tell me who you are/i.test(err))

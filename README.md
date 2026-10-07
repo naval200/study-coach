@@ -2,7 +2,7 @@
 
 A Claude Code skill that coaches you through a self-directed curriculum. Give it any study plan; it builds a plain-markdown workspace, tells you what to do today, tracks whether you're ahead or behind, quizzes you until you actually know the material, lets the plan change without falling apart, and turns your progress into posts.
 
-**Guide:** [naval200.github.io/study-coach](https://naval200.github.io/study-coach/) — short pages that explain each part of the skill (source in [`docs/`](docs/)).
+**Guide:** [studycoach.diy](https://studycoach.diy/) — short pages that explain each part of the skill (source in [`docs/`](docs/)).
 
 ```
 /study-coach                  what do I do today?
@@ -36,7 +36,7 @@ A second skill in this plugin. It plans like a technical architect, not a course
 - **Built to stick:** sized to your real hours, a 20-minute minimum day, a scope-cut rule and a pre-mortem.
 - **Why this plan:** every plan ends with what was assumed, prioritized and skipped, so you can change it.
 
-It writes `curriculum/brief.md`, `gaps.md`, `exit-test.md` and `plan.md`. Then `/study-coach init curriculum/plan.md` runs it. Guide: [study-planner docs](https://naval200.github.io/study-coach/planner.html).
+It writes `curriculum/brief.md`, `gaps.md`, `exit-test.md` and `plan.md`. Then `/study-coach init curriculum/plan.md` runs it. Guide: [study-planner docs](https://studycoach.diy/planner.html).
 
 ## Install
 
@@ -81,11 +81,11 @@ node skills/study-coach/scripts/dashboard.mjs examples/sample-workspace --today 
 
 You do not need to know git or GitHub. The coach checks the tools, tells you how to make a free GitHub account, and has you sign in with `gh auth login` in your own browser. Then it makes the repo, adds a progress page (`templates/progress-page.html`) and turns on GitHub Pages. It never makes accounts or types passwords for you.
 
-After that, each `log`, `check`, `review`, `adapt`, `share` or `capture` ends with `scripts/sync.mjs`. It commits only the workspace files, refuses `private.md` and `.env` files, pulls, and pushes. The page at `https://<you>.github.io/<repo>/` updates in about a minute. Set `sync: ask` or `sync: off` in `STUDY.md` to change this. Plain-English guide: [Go online](https://naval200.github.io/study-coach/online.html).
+After that, each `log`, `check`, `review`, `adapt`, `share` or `capture` ends with `scripts/sync.mjs`. It commits only the workspace files, refuses `private.md` and `.env` files, pulls, and pushes. The page at `https://<you>.github.io/<repo>/` updates in about a minute. Set `sync: ask` or `sync: off` in `STUDY.md` to change this. Plain-English guide: [Go online](https://studycoach.diy/online.html).
 
 ## See it in use
 
-[Walkthrough](https://naval200.github.io/study-coach/walkthrough.html): one learner, four weeks, from no plan to a passed exit test. Each step shows the command; open it to read the conversation.
+[Walkthrough](https://studycoach.diy/walkthrough.html): one learner, four weeks, from no plan to a passed exit test. Each step shows the command; open it to read the conversation.
 
 ## How it works
 

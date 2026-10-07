@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Study Coach Tracks</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.track { border: 1px solid var(--line); border-radius: 6px; padding: 12px 16px; margin: 16px 0; }
+.track h3 { margin: 0 0 4px; }
+.bar { height: 8px; background: var(--box); border-radius: 4px; overflow: hidden; margin: 10px 0 6px; }
+.bar span { display: block; height: 100%; background: var(--accent); }
+.stats { font-size: 15px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+<nav><a href="index.html">Overview</a><a href="walkthrough.html">Walkthrough</a><a href="planner.html">Make a plan</a><a href="workspace.html">Files</a><a href="modes.html">Commands</a><a href="check.html">Concept checks</a><a href="adapt.html">Plan changes</a><a href="share.html">Posts</a><a href="online.html">Go online</a><a href="tracks.html" aria-current="page">Tracks</a></nav>
+
+<h1>Tracks</h1>
+<p class="lead">Real study plans run with Study Coach. Days done and days left are worked out from the start date.</p>
+
+<div id="tracks"></div>
+<noscript><p class="muted">Turn on JavaScript to see the day counts.</p></noscript>
+
+<h2>Add your track</h2>
+<p>Add one entry to the <code>tracks</code> list at the bottom of this page: a name, your goal, your start date, your number of days, and your dashboard link. Tracks use the <code>start</code> and <code>days</code> values from your <code>STUDY.md</code>.</p>
+
+<script>
+// Add new tracks here. start = YYYY-MM-DD, days = length of the plan.
+var tracks = [
+  {
+    name: "AI Study Plan",
+    who: "Senior product engineer",
+    goal: "Get hired as a remote LLM / AI engineer by building four measured, public projects.",
+    start: "2026-10-05",
+    days: 47,
+    url: "https://naval200.github.io/ai-study/"
+  }
+];
+
+function dayNumber(start) {
+  var s = new Date(start + "T00:00:00");
+  var t = new Date(); t.setHours(0, 0, 0, 0);
+  return Math.round((t - s) / 86400000) + 1;
+}
+
+tracks.forEach(function (t) {
+  var n = dayNumber(t.start);
+  var done = Math.max(0, Math.min(n, t.days));
+  var status;
+  if (n < 1) status = "Starts in " + (1 - n) + " day" + (n === 0 ? "" : "s");
+  else if (n > t.days) status = "Finished. " + t.days + " of " + t.days + " days";
+  else status = "Day " + n + " of " + t.days + " · " + (t.days - n) + " left";
+  var el = document.createElement("div");
+  el.className = "track";
+  el.innerHTML = '<h3><a href="' + t.url + '"></a></h3><p class="muted"></p><p></p>' +
+    '<div class="bar"><span></span></div><div class="stats"></div>';
+  el.querySelector("a").textContent = t.name;
+  el.querySelector(".muted").textContent = t.who;
+  el.children[2].textContent = t.goal;
+  el.querySelector(".bar span").style.width = Math.round(100 * done / t.days) + "%";
+  el.querySelector(".stats").textContent = status + " · started " + t.start;
+  document.getElementById("tracks").appendChild(el);
+});
+</script>
+</main>
+</body>
+</html>

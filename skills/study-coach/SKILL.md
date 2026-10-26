@@ -1,7 +1,7 @@
 ---
 name: study-coach
 description: Self-directed learning coach that runs a curriculum from a markdown study workspace (STUDY.md, days/, courses/, books/, articles/, concepts/, ideas/, posts/, DASHBOARD.md). Use when the user asks what to do today, how they're progressing on their plan or roadmap, wants to log a study day, check whether they really understand a concept, review due concepts, capture an idea/article/paper/book, change or re-plan their curriculum or goal (including "I found an interesting paper/job post"), turn progress into a blog or social posts, run a weekly review, set up a new curriculum, or put their progress online (GitHub repo, GitHub Pages dashboard, automatic save).
-argument-hint: "[today | log | status | check <concept> | adapt <change> | share | capture <idea|article|book> | review | online | init <file>]"
+argument-hint: "[today | log | status | check <concept> | adapt <change> | share | capture <idea|article|book> | review | report | online | init <file>]"
 ---
 
 # Study Coach
@@ -24,6 +24,8 @@ ideas/              inbox.md, parking-lot.md
 projects/           code and deliverables
 posts/              YYYY-MM-DD-slug/{blog.md, variants.md}, published.md
 reviews/            week-N.md
+index.html          progress page (from templates/progress-page.html); reads progress.js
+report.html         report card page (from templates/report-page.html); reads progress.js and report-data.js
 ```
 
 Templates for every file are in `templates/` next to this file. Detailed procedures are in `references/`; read the matching one before running `check`, `adapt`, `share` or `online`.
@@ -77,6 +79,15 @@ At most 8 lines: day N/M, pace with numbers, this week's deliverable and whether
 - **On track:** one line of encouragement and what's next.
 - Readiness for a milestone: group concepts as reliable / fragile / untested (`references/check.md`).
 
+### report: concept scorecard and week cards
+Show the concept scorecard and the week cards in the terminal, and refresh the page.
+1. Run the dashboard (section 2). With `report_page: true`, it also writes `report-data.js`.
+2. Run `node <this-skill-dir>/scripts/report.mjs <workspace-root>`. It prints the scorecard and the week cards.
+3. Show the groups in this order: Fix first, Fragile, Building, Reliable, Untested. Give the overdue reviews and the repeat misses.
+4. For each closed week with no `reviews/week-N.md`, offer `review`.
+5. End with one recommendation, for example "Fix *cross-entropy* first: run `check cross-entropy-nll`."
+6. If `report_page` is not set, offer to add the page. On yes, copy `templates/report-page.html` to `report.html` and set `report_page: true`. Add the link `<a class="btnlink" href="report.html">Report card →</a>` next to the pace pill in `index.html` (the CSS is in `templates/progress-page.html`).
+
 ### check \<concept\>: did they actually learn it?
 Follow `references/check.md`:
 - Agree on the target depth (aware / explain / apply / teach).
@@ -103,7 +114,7 @@ Follow `references/online.md`. Many learners do not know git or GitHub, so expla
 - Check git and the GitHub CLI (`gh`), and give the install command if one is missing.
 - The learner creates the GitHub account and signs in with `gh auth login`. Never create accounts or type passwords.
 - Before the first push, say that a public repo shows every committed file. Get a clear yes.
-- Create the repo with `gh`, add the progress page, turn on GitHub Pages, and write `sync`, `remote` and `pages_url` into STUDY.md.
+- Create the repo with `gh`, add the progress page and the report card page, turn on GitHub Pages, and write `sync`, `remote`, `pages_url`, `progress_js` and `report_page` into STUDY.md.
 - End with the page link and one line on what now happens automatically.
 
 ### capture \<idea | article | book\>
@@ -117,15 +128,17 @@ Follow `references/online.md`. Many learners do not know git or GitHub, so expla
 3. Clear the catch-up queue according to the recovery rule.
 4. Run the due reviews and point out repeat misses.
 5. Offer `share` for the weekly write-up: one long blog post plus a carousel.
+6. Run the dashboard, then save and publish (section 2b). The week review text then shows on `report.html`.
 
 ### init \<curriculum\>: turn a plan into a workspace
 No plan yet, or the learner is unsure what to study? Use the `study-planner` skill first; it writes `curriculum/brief.md`, `gaps.md`, `exit-test.md` and `plan.md`.
 1. Save the plan as `curriculum/plan.md`. Normalize it to `### Day N · <weekday date> — Title` headings with `- **Label:** text` bullets, keeping the learner's wording.
-2. If `curriculum/brief.md` exists, take the destination, current position, dates, hours, pace, run-sheet, rules, minimum day and pre-mortem from it (the learner profile comes from *Current position* and *Constraints*) and only confirm what is missing. Otherwise confirm the start date, timezone, time budget, goal, default depth, post formats and change cadence. Write `STUDY.md` with these frontmatter keys: `curriculum, plan, start, end, days, timezone, hours_target_per_week, scope_cut_after_missed, exit_test, exit_test_pass, default_depth, post_formats, checkpoints, goal_cooldown_days, max_swaps_per_week, sync, remote, pages_url`. Add the goal, learner profile, run-sheet and rules.
+2. If `curriculum/brief.md` exists, take the destination, current position, dates, hours, pace, run-sheet, rules, minimum day and pre-mortem from it (the learner profile comes from *Current position* and *Constraints*) and only confirm what is missing. Otherwise confirm the start date, timezone, time budget, goal, default depth, post formats and change cadence. Write `STUDY.md` with these frontmatter keys: `curriculum, plan, start, end, days, timezone, hours_target_per_week, scope_cut_after_missed, exit_test, exit_test_pass, default_depth, post_formats, checkpoints, goal_cooldown_days, max_swaps_per_week, progress_js, report_page, sync, remote, pages_url`. Set `progress_js: progress.js` and `report_page: true`. Add the goal, learner profile, run-sheet and rules.
 3. Create one `days/dayNN.md` per scheduled day from `templates/day.md`. Mark optional items `(stretch)` or `(if behind)`.
 4. Create the course and book files, the parking lot, the exit test, and empty `curriculum/changes.md`, `curriculum/proposals.md`, `concepts/_misses.md` and `posts/published.md`, all from templates.
-5. Ask: "Do you want an online progress page that updates on its own?" On yes, run `online`. On no, set `sync: off`.
-6. Run the dashboard and show the `today` view.
+5. Copy `templates/progress-page.html` to `index.html` and `templates/report-page.html` to `report.html`. Both pages open from the folder with no server.
+6. Ask: "Do you want an online progress page that updates on its own?" On yes, run `online`. On no, set `sync: off`.
+7. Run the dashboard and show the `today` view.
 
 ## 4. File conventions the dashboard relies on
 
@@ -134,6 +147,15 @@ No plan yet, or the learner is unsure what to study? Use the `study-planner` ski
 - **Concept frontmatter:** `title, target, level, last_check, last_checked, review_step, next_review`. Write the review fields only via `scripts/concept.mjs`. Files starting with `_` aren't concepts.
 - **Sync keys (optional):** `sync` (auto / ask / off), `remote` (default `origin`), `pages_url`, `sync_include` (extra paths, comma-separated, for example `projects`). `sync.mjs` reads them.
 - **Progress page (optional):** with `progress_js: progress.js` in STUDY.md, the dashboard script also writes that file for a static `index.html`. The page is `templates/progress-page.html`, copied to `index.html`. Ticks made on the page stay in the browser; the learner pastes its "Copy for coach" export into `log`. Treat it like any log: tick only listed items, confirm understanding items with a quick check.
+- **Report card page (optional):** with `report_page: true` and `progress_js` in STUDY.md, the dashboard also writes `report-data.js` (as `window.STUDY_REPORT = {...}`) next to `progress.js`. `scripts/report.mjs` does the work. It reads `progress.js`, `concepts/*.md`, `concepts/_misses.md` and `reviews/week-N.md`. The page is `templates/report-page.html`, copied to `report.html`. `sync.mjs` saves both files when `report_page` is true. Today's date comes from the `timezone` key.
+- **Concept groups on the report card:** the script uses `last_check`, `level` and `target`. The level order is aware < explain < apply < teach.
+  - No `last_check`: **Untested**.
+  - `misconception` or `gap`: **Fix first**.
+  - `fragile`: **Fragile**.
+  - `solid`, and `level` is below `target`: **Building**.
+  - `solid`, and `level` is at or above `target`: **Reliable**.
+  - A concept is overdue when `next_review` is before today. Rows of `_misses.md` attach to a concept by slug (the `Concept` column), with the repeat count.
+- **Week reviews:** `reviews/week-N.md` from `templates/week-review.md`. The report card shows the `**Deliverable:**` line and the `## What worked`, `## What didn't`, `## Catch-up decisions` and `## One change for next week` bullets. All sections are optional. The page escapes all text. Only `` `code` `` spans become code.
 - **Tables the script reads:** `concepts/_misses.md`, `curriculum/changes.md`, `curriculum/proposals.md` and `posts/published.md`. Keep the header rows from the templates.
 
 ## 5. Coaching style

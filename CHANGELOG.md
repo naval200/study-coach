@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.0 — 2026-10-26
+- New report card page, `templates/report-page.html` (copied to `report.html`). It shows a concept scorecard in five groups (Fix first, Fragile, Building, Reliable, Untested) and one card per plan week. Each week card shows items, days done, days logged, hours, posts, commits and the text of `reviews/week-N.md`.
+- New `scripts/report.mjs`: writes `report-data.js` next to `progress.js` and prints the report card in the terminal. Today's date follows the `timezone` key. No dependencies.
+- `dashboard.mjs` runs the report step after it writes `progress.js` when `report_page: true` is set. It also writes per-week posts and commits to `progress.js` (`weekStats`).
+- `sync.mjs` saves `report.html` and `report-data.js` when `report_page` is true.
+- New `report` mode. `init` and `online` add the page. `review` ends with a dashboard run, so the week text shows on the page.
+- The progress page has a "Report card →" link next to the pace pill.
+- Upgrade steps for older workspaces: `UPGRADING.md`.
+
 ## 0.5.0 — 2026-10-05
 - New `online` mode (`references/online.md`): a step-by-step setup for learners who do not know git. It checks git and `gh`, guides the GitHub sign-up and `gh auth login`, creates the repo, adds the progress page and turns on GitHub Pages. The learner makes the account and signs in; the coach never types passwords.
 - New `scripts/sync.mjs`: commits only workspace paths, refuses `private.md` and `.env` files, pulls with rebase, pushes, and prints the page link. Plain-English errors for login, network and conflicts.

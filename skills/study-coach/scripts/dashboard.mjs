@@ -277,6 +277,7 @@ if (owed.length) {
 
 // Weeks
 const weeks = [...new Set(days.map((d) => d.week))].filter((w) => w !== "" && w !== 0);
+const weekStats = {}; // per-week posts and commits, also written to progress.js for report.mjs
 if (weeks.length) {
   out.push("## Weekly scorecard", "");
   out.push(`| Week | Days done | Logged | Items | Hours (target ${cfg.hours_target_per_week || "–"}) | Posts | Commits |`);
@@ -287,7 +288,9 @@ if (weeks.length) {
     const res = wd.reduce((n, d) => n + d.resolved.length, 0);
     const started = wd[0].date <= today;
     const reels = wd.reduce((n, d) => n + d.items.filter((i) => isPost(i) && i.state === "done").length, 0);
-    out.push(`| ${w} | ${wd.filter((d) => d.status === "done").length}/${wd.length} | ${wd.filter((d) => d.logged).length} | ${res}/${req} | ${wd.reduce((n, d) => n + d.hours, 0)} | ${reels} | ${started ? commitsBetween(wd[0].date, last(wd).date) : "–"} |`);
+    const commits = started ? commitsBetween(wd[0].date, last(wd).date) : "–";
+    weekStats[w] = { posts: reels, commits };
+    out.push(`| ${w} | ${wd.filter((d) => d.status === "done").length}/${wd.length} | ${wd.filter((d) => d.logged).length} | ${res}/${req} | ${wd.reduce((n, d) => n + d.hours, 0)} | ${reels} | ${commits} |`);
   }
   out.push("");
 }
@@ -383,6 +386,7 @@ if (write && cfg.progress_js) {
     posts: published.length,
     reviewsDue: due.map((c) => ({ title: c.title, next: c.next, outcome: c.outcome })),
     weeks: weekIntros(),
+    weekStats,
     tracks: tracks.map((t) => ({ file: t.rel, ...t.p })),
     days: days.map((d) => ({
       day: d.day, date: d.date, weekday: weekday(d.date), week: d.week, title: d.title, type: d.type, hours: d.hours,
@@ -391,6 +395,16 @@ if (write && cfg.progress_js) {
     })),
   };
   fs.writeFileSync(path.join(root, cfg.progress_js), `window.STUDY_PROGRESS = ${JSON.stringify(data, null, 1)};\n`);
+
+  // Report card page: STUDY.md `report_page: true` → report-data.js next to progress.js (see report.mjs).
+  if (/^(true|yes|on)$/i.test(String(cfg.report_page ?? ""))) {
+    try {
+      const { buildReport, writeReport } = await import("./report.mjs");
+      writeReport(root, cfg, buildReport(root, { cfg, progress: data, today }));
+    } catch (e) {
+      console.error(`dashboard: report-data.js not written: ${e.message}`);
+    }
+  }
 }
 
 const md = out.join("\n");

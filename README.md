@@ -13,6 +13,7 @@ A Claude Code skill that coaches you through a self-directed curriculum. Give it
 /study-coach share            turn today's work into a blog + LinkedIn / X / Instagram carousel / YouTube text
 /study-coach capture idea|article|book …
 /study-coach review           weekly scorecard
+/study-coach report           concept scorecard and week cards (also on report.html)
 /study-coach online           put my progress on a free web page that updates itself
 /study-coach init plan.md     turn a curriculum into a workspace
 ```

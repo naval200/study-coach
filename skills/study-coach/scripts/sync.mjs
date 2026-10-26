@@ -2,7 +2,8 @@
 // Saves the study workspace to git and pushes it, so the online dashboard stays current.
 // Usage: node sync.mjs [workspaceDir] [--message "text"] [--yes] [--dry-run]
 //   Reads STUDY.md: sync (auto | ask | off, default off), remote (default origin),
-//   pages_url (printed after a push), sync_include (extra paths, comma-separated).
+//   pages_url (printed after a push), sync_include (extra paths, comma-separated),
+//   report_page (true → also save report.html and report-data.js).
 //   sync: auto → commit and push. ask / off → do nothing unless --yes (the learner said yes).
 // Stages only workspace paths. Refuses private.md and .env files. No dependencies.
 
@@ -67,6 +68,10 @@ if (tryGit(["rev-parse", "--is-inside-work-tree"]) !== "true") fail("this folder
 const PATHS = ["STUDY.md", "DASHBOARD.md", "index.html", "curriculum", "days", "courses", "books", "articles",
   "concepts", "ideas", "posts", "reviews"];
 if (cfg.progress_js) PATHS.push(cfg.progress_js);
+// Report card page (report.mjs writes report-data.js next to progress.js).
+if (/^(true|yes|on)$/i.test(cfg.report_page || "")) {
+  PATHS.push("report.html", path.posix.join(path.posix.dirname(cfg.progress_js || "progress.js"), "report-data.js"));
+}
 for (const p of (cfg.sync_include || "").split(",").map((s) => s.trim()).filter(Boolean)) PATHS.push(p);
 const present = [...new Set(PATHS)].filter((p) => fs.existsSync(path.join(root, p)));
 

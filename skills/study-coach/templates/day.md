@@ -5,6 +5,7 @@ week: W
 title: Short title
 type: core   # core | light | setup
 hours: 0
+# extended: 0   # extra calendar days for this day; set by `extend`
 ---
 
 # Day N · Ddd D Mon — Short title

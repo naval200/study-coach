@@ -36,7 +36,7 @@ Templates for every file are in `templates/` next to this file. Detailed procedu
 node <this-skill-dir>/scripts/dashboard.mjs <workspace-root>
 ```
 
-This rewrites `DASHBOARD.md` and prints it: day N of M, pace, items owed, streak, missed run, reviews due, misconceptions, repeat misses, plan changes, posts. Use its numbers; never recount by hand. Read `STUDY.md` for rules and the learner profile. Re-run the script after changing any workspace file.
+This rewrites `DASHBOARD.md` and prints it: day N of M, pace, items owed, streak, extensions, missed run, reviews due, misconceptions, repeat misses, plan changes, posts. Use its numbers; never recount by hand. Read `STUDY.md` for rules and the learner profile. Re-run the script after changing any workspace file.
 
 ## 2b. Save and publish after every change
 
@@ -71,6 +71,14 @@ Pick the mode from the arguments or the user's wording. No argument → `today`.
 4. Update course and book progress. Re-run the dashboard and give pace in one line.
 5. Save and publish (section 2b). Report the result in the same line as the pace.
 6. If the day had a Post item that isn't done, offer `share`. If the learner does not want to post, mark it `[-]` with the reason. Do not tick it.
+
+### extend \<day\> \<n\>: give a day more calendar days
+Use this when the learner needs more time for one day, or when a progress-page export has an `extend:` line.
+1. In that day file, add `n` to `extended` in the frontmatter (no key means 0). Do not change its `date`.
+2. Add `n` days to the `date` of every later day file. Update the heading dates in those files and in `curriculum/plan.md`, and update `end` in `STUDY.md`.
+3. Add a row to `curriculum/changes.md`: kind `extend`, change "Day N +n day(s); later days move n day(s)", the reason, and cost "–".
+4. Re-run the dashboard. Give the extension count and the new end date in one line, then save and publish (section 2b).
+5. If the learner extends 3 or more times in a week, say so kindly with the numbers. Ask whether the plan is too full. If yes, offer `adapt` to cut scope.
 
 ### status: "how am I progressing?"
 At most 8 lines: day N/M, pace with numbers, this week's deliverable and whether it's on track, streak, exit test, reviews due, concepts below target, posts shared. Then one recommendation:
@@ -142,11 +150,11 @@ No plan yet, or the learner is unsure what to study? Use the `study-planner` ski
 
 ## 4. File conventions the dashboard relies on
 
-- **Day frontmatter:** `day`, `date` (YYYY-MM-DD), `week`, `title`, `type` (core / light / setup), `hours`. Only checkboxes under `## Plan` and `## Done when` count: `[ ]` todo, `[x]` done, `[-]` dropped. Items with `(stretch)`, `(if behind)` or `Stretch:` are optional. `**Post:**` items count as posts.
+- **Day frontmatter:** `day`, `date` (YYYY-MM-DD), `week`, `title`, `type` (core / light / setup), `hours`, and optional `extended` (extra calendar days; the day runs from `date` to `date + extended`). Only checkboxes under `## Plan` and `## Done when` count: `[ ]` todo, `[x]` done, `[-]` dropped. Items with `(stretch)`, `(if behind)` or `Stretch:` are optional. `**Post:**` items count as posts.
 - **Log lines:** `- **Done:** …`, `- **Blocked:** …`, `- **Tomorrow's first task:** …`
 - **Concept frontmatter:** `title, target, level, last_check, last_checked, review_step, next_review`. Write the review fields only via `scripts/concept.mjs`. Files starting with `_` aren't concepts.
 - **Sync keys (optional):** `sync` (auto / ask / off), `remote` (default `origin`), `pages_url`, `sync_include` (extra paths, comma-separated, for example `projects`). `sync.mjs` reads them.
-- **Progress page (optional):** with `progress_js: progress.js` in STUDY.md, the dashboard script also writes that file for a static `index.html`. The page is `templates/progress-page.html`, copied to `index.html`. Ticks made on the page stay in the browser; the learner pastes its "Copy for coach" export into `log`. Treat it like any log: tick only listed items, confirm understanding items with a quick check.
+- **Progress page (optional):** with `progress_js: progress.js` in STUDY.md, the dashboard script also writes that file for a static `index.html`. The page is `templates/progress-page.html`, copied to `index.html`. Ticks made on the page stay in the browser; the learner pastes its "Copy for coach" export into `log`. Treat it like any log: tick only listed items, confirm understanding items with a quick check. Apply each `extend:` line with the `extend` mode. The page's ⋮ menu on an open day makes these lines.
 - **Report card page (optional):** with `report_page: true` and `progress_js` in STUDY.md, the dashboard also writes `report-data.js` (as `window.STUDY_REPORT = {...}`) next to `progress.js`. `scripts/report.mjs` does the work. It reads `progress.js`, `concepts/*.md`, `concepts/_misses.md` and `reviews/week-N.md`. The page is `templates/report-page.html`, copied to `report.html`. `sync.mjs` saves both files when `report_page` is true. Today's date comes from the `timezone` key.
 - **Concept groups on the report card:** the script uses `last_check`, `level` and `target`. The level order is aware < explain < apply < teach.
   - No `last_check`: **Untested**.

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.0 — 2026-10-27
+- Extend a day: on the progress page, open a day and use the ⋮ menu to extend it by 1, 2, 3 or more days. Later days move by the same number of days at once. The change stays in the browser until you copy it to the coach, like ticks. "Undo" removes an extension that is not saved yet.
+- New `extend` mode: the coach adds `extended: N` to the day file, moves the dates of later days, updates `end` and logs a row of kind `extend` in `curriculum/changes.md`.
+- New "Extensions" tile on the progress page: extensions taken and extra days. Extended days show a `+Nd` badge and a `+N` mark on the calendar.
+- `dashboard.mjs`: an extended day counts as "today" from `date` to `date + extended`, so it is not missed. DASHBOARD.md shows an Extensions line. `progress.js` has `extensions` and per-day `until` and `extended`.
+
 ## 0.6.0 — 2026-10-26
 - New report card page, `templates/report-page.html` (copied to `report.html`). It shows a concept scorecard in five groups (Fix first, Fragile, Building, Reliable, Untested) and one card per plan week. Each week card shows items, days done, days logged, hours, posts, commits and the text of `reviews/week-N.md`.
 - New `scripts/report.mjs`: writes `report-data.js` next to `progress.js` and prints the report card in the terminal. Today's date follows the `timezone` key. No dependencies.

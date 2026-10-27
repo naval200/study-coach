@@ -100,6 +100,7 @@ const today = todayArg || new Intl.DateTimeFormat("en-CA", { timeZone: tz }).for
 const toUTC = (s) => { const [y, m, d] = String(s).split("-").map(Number); return Date.UTC(y, m - 1, d); };
 const daysBetween = (a, b) => Math.round((toUTC(b) - toUTC(a)) / 86400000);
 const weekday = (s) => ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][new Date(toUTC(s)).getUTCDay()];
+const addDays = (s, n) => new Date(toUTC(s) + n * 86400000).toISOString().slice(0, 10);
 
 // ---------- days ----------
 const days = mdFiles("days").map((file) => {
@@ -108,15 +109,20 @@ const days = mdFiles("days").map((file) => {
   const required = items.filter((i) => !i.optional);
   const resolved = required.filter((i) => i.state !== "todo");
   const date = String(data.date || "");
+  // `extended: N` = the day runs over N more calendar days (date … until).
+  const extended = Math.max(0, Number(data.extended) || 0);
+  const until = date ? addDays(date, extended) : "";
   let status;
   if (required.length && resolved.length === required.length) status = "done";
   else if (date > today) status = "upcoming";
-  else if (date === today) status = "today";
+  else if (until >= today) status = "today";
   else status = items.some((i) => i.state === "done") ? "partial" : "missed";
   return {
     file: path.relative(root, file),
     day: Number(data.day ?? NaN),
     date,
+    until,
+    extended,
     week: data.week ?? "",
     title: data.title || "",
     type: data.type || "core",
@@ -130,9 +136,9 @@ const days = mdFiles("days").map((file) => {
   };
 }).filter((d) => d.date).sort((a, b) => a.date.localeCompare(b.date));
 
-const past = days.filter((d) => d.date < today);
+const past = days.filter((d) => d.until < today);
 const future = days.filter((d) => d.date > today);
-const todayDay = days.find((d) => d.date === today);
+const todayDay = days.find((d) => d.date <= today && d.until >= today);
 const isPost = (i) => /^post/i.test(i.label);
 
 // Pace: items owed from past days vs items already done on future days.
@@ -191,6 +197,14 @@ const changes = readTable("curriculum/changes.md");
 const proposals = readTable("curriculum/proposals.md").filter((p) => !/applied|rejected|parked/i.test(p.status || ""));
 const published = readTable("posts/published.md");
 
+// Extensions: days in the day files, times from `extend` rows in changes.md (at least one per extended day).
+const extendedDays = days.filter((d) => d.extended > 0);
+const extensions = {
+  times: Math.max(changes.filter((c) => /^extend/i.test(c.kind || "")).length, extendedDays.length),
+  days: extendedDays.reduce((n, d) => n + d.extended, 0),
+  list: extendedDays.map((d) => ({ day: d.day, by: d.extended })),
+};
+
 let exit = null;
 if (cfg.exit_test && fs.existsSync(path.join(root, cfg.exit_test))) {
   const boxes = parseBoxes(read(path.join(root, cfg.exit_test)));
@@ -230,7 +244,7 @@ const totalDays = Number(cfg.days) || days.filter((d) => d.day >= 1).length;
 out.push("## Where you are", "");
 if (start && today < start) out.push(`- **Before Day 1.** Day 1 starts ${weekday(start)} ${start} (in ${daysBetween(today, start)} day(s)).`);
 else if (end && today > end) out.push(`- **Curriculum finished** (ended ${end}).`);
-else if (dayNum) out.push(`- **Day ${dayNum} of ${totalDays}** · ${weekday(today)} ${today}${todayDay ? ` · Week ${todayDay.week}: ${todayDay.title}` : ""}`);
+else if (dayNum) out.push(`- **Day ${todayDay ? todayDay.day : dayNum} of ${totalDays}** · ${weekday(today)} ${today}${todayDay ? ` · Week ${todayDay.week}: ${todayDay.title}` : ""}${todayDay && todayDay.extended ? ` (extended +${todayDay.extended}, until ${todayDay.until})` : ""}`);
 out.push(`- **Overall:** ${bar(totalResolved, totalRequired)} ${pct(totalResolved, totalRequired)}% (${totalResolved}/${totalRequired} required items)`);
 
 let pace;
@@ -240,6 +254,7 @@ else if (aheadItems.length) pace = `🟢 **Ahead** — ${aheadItems.length} futu
 else pace = past.length ? "🟢 **On track** — nothing owed" : "⚪ **Not started**";
 out.push(`- **Pace:** ${pace}`);
 out.push(`- **Streak:** ${streak} day(s) logged in a row`);
+if (extensions.days) out.push(`- **Extensions:** ${extensions.times} taken · ${extensions.days} extra day(s) (${extensions.list.map((e) => `Day ${e.day} +${e.by}`).join(", ")})`);
 if (missedRun >= scopeCutAfter) out.push(`- ⚠️ **${missedRun} days missed in a row** — plan rule: cut scope, don't add hours.`);
 if (exit) out.push(`- **Exit test:** ${exit.done}/${exit.total} (pass ≥ ${exit.pass})`);
 if (cfg.pages_url) out.push(`- **Online:** ${cfg.pages_url}`);
@@ -297,10 +312,10 @@ if (weeks.length) {
 
 // Calendar
 out.push("## Calendar", "");
-out.push("✅ done · 🟡 partial · ❌ missed · 👉 today · · upcoming", "");
+out.push("✅ done · 🟡 partial · ❌ missed · 👉 today · · upcoming · +N extended", "");
 for (const w of [...new Set(days.map((d) => d.week))]) {
   const wd = days.filter((d) => d.week === w);
-  out.push(`- **${w === 0 || w === "" ? "Setup" : `Week ${w}`}:** ` + wd.map((d) => `${ICON[d.status]} ${d.day}`).join("  "));
+  out.push(`- **${w === 0 || w === "" ? "Setup" : `Week ${w}`}:** ` + wd.map((d) => `${ICON[d.status]} ${d.day}${d.extended ? ` +${d.extended}` : ""}`).join("  "));
 }
 out.push("");
 
@@ -355,7 +370,7 @@ out.push(`- Ideas in inbox: ${inboxCount} · Parking lot: ${parkingCount} · Art
 out.push("");
 
 if (brief) {
-  const lines = [`study-coach: ${dayNum && dayNum >= 1 && dayNum <= totalDays ? `Day ${dayNum}/${totalDays}${todayDay ? ` — ${todayDay.title}` : ""}` : start && today < start ? `Day 1 starts ${start}` : "plan finished"} · ${pace.replace(/\*\*/g, "")}`];
+  const lines = [`study-coach: ${dayNum && dayNum >= 1 && dayNum <= totalDays ? `Day ${todayDay ? todayDay.day : dayNum}/${totalDays}${todayDay ? ` — ${todayDay.title}` : ""}` : start && today < start ? `Day 1 starts ${start}` : "plan finished"} · ${pace.replace(/\*\*/g, "")}`];
   if (due.length || misconceptions.length) lines.push(`study-coach: ${due.length} concept review(s) due${misconceptions.length ? `, ${misconceptions.length} misconception(s) to fix` : ""}`);
   if (lastLogged && todayDay) lines.push(`study-coach: start with — ${lastLogged.log.next}`);
   lines.push("study-coach: run /study-coach for today's plan");
@@ -380,7 +395,7 @@ if (write && cfg.progress_js) {
     start, end, dayNum, totalDays,
     pace: pace.replace(/\*\*/g, ""),
     paceKind: owed.length && aheadItems.length ? "mixed" : owed.length ? "behind" : aheadItems.length ? "ahead" : past.length ? "on-track" : "not-started",
-    streak, missedRun,
+    streak, missedRun, extensions,
     overall: { done: totalResolved, total: totalRequired },
     exit: exit && { ...exit, items: parseBoxes(read(path.join(root, cfg.exit_test))).map((b) => ({ text: b.text, state: b.state })) },
     posts: published.length,
@@ -389,7 +404,7 @@ if (write && cfg.progress_js) {
     weekStats,
     tracks: tracks.map((t) => ({ file: t.rel, ...t.p })),
     days: days.map((d) => ({
-      day: d.day, date: d.date, weekday: weekday(d.date), week: d.week, title: d.title, type: d.type, hours: d.hours,
+      day: d.day, date: d.date, until: d.until, extended: d.extended, weekday: weekday(d.date), week: d.week, title: d.title, type: d.type, hours: d.hours,
       status: d.status, file: d.file, log: d.log,
       items: d.items.map((i) => ({ text: i.text, label: i.label, section: i.section, state: i.state, optional: i.optional })),
     })),

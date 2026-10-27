@@ -1,5 +1,9 @@
 # Upgrading a workspace
 
+## 0.7.0: extend a day
+
+To get the ⋮ menu and the Extensions tile, copy `skills/study-coach/templates/progress-page.html` to `index.html` again. If you changed your copy, ask the coach to merge the change. Then run `/study-coach status`, so that `progress.js` has the new fields. No other change is necessary. Day files without `extended` work as before.
+
 ## 0.6.0: report card page
 
 New workspaces from `init` or `online` get `report.html`. An older workspace needs three changes. The coach can do them for you: run `/study-coach report` and say yes.

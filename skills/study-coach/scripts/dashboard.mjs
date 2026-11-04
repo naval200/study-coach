@@ -10,7 +10,7 @@ import { execFileSync } from "node:child_process";
 
 // ---------- args ----------
 const args = process.argv.slice(2);
-let dirArg = ".";
+let dirArg = process.env.CLAUDE_PROJECT_DIR || ".";
 let todayArg;
 let write = true;
 let brief = false;

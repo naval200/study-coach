@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/skills/study-coach/scripts/dashboard.mjs\" \"${CLAUDE_PROJECT_DIR:-.}\" --brief",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/skills/study-coach/scripts/dashboard.mjs\" --brief",
             "timeout": 10
           }
         ]
